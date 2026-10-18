@@ -597,9 +597,16 @@ input {
   margin-bottom: 2px;
 }
 
-.summary-card__text {
-  font-size: 1.02rem;
-  max-width: 80ch;
+.summary-points {
+  display: grid;
+  gap: 12px;
+  max-width: 88ch;
+  margin: 0;
+  padding-left: 22px;
+}
+
+.summary-points li {
+  padding-left: 4px;
 }
 
 .stats {
@@ -997,58 +1004,43 @@ input {
   gap: 12px;
 }
 
-.answer-status {
-  display: inline-block;
-  border-radius: 999px;
-  background: var(--surface-muted);
-  padding: 3px 9px;
-  font-size: 0.8rem;
-  font-weight: 650;
-  text-transform: capitalize;
+.chat-points {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding-left: 22px;
 }
 
-.chat-answer-section {
-  width: 100%;
-}
-
-.chat-answer-section h3 {
-  margin-bottom: 6px;
-  font-size: 0.92rem;
-}
-
-.chat-answer-section article + article {
-  margin-top: 12px;
-}
-
-.chat-answer-section ul {
-  padding-left: 20px;
+.chat-points li {
+  padding-left: 3px;
 }
 
 .chat-citation {
-  margin: 8px 0 0;
-  padding: 10px 12px;
-  border-left: 3px solid var(--accent);
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-  background: var(--surface-muted);
-}
-
-.chat-citation p {
-  font-family: var(--font-serif);
-}
-
-.chat-citation cite {
-  display: block;
   margin-top: 5px;
   color: var(--text-muted);
-  font-size: 0.8rem;
-  font-style: normal;
+  font-size: 0.83rem;
+}
+
+.chat-citation summary {
+  cursor: pointer;
+}
+
+.chat-citation blockquote {
+  margin: 6px 0 0;
+  padding: 8px 10px;
+  border-left: 2px solid var(--accent);
+  background: var(--surface-muted);
+  color: var(--text);
 }
 
 .chat-silent,
-.chat-escalation {
+.chat-note {
   color: var(--text-muted);
 }
 
+.chat-note {
+  font-size: 0.86rem;
+}
 .chat-error,
 .session-error {
   color: var(--danger);

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+import re
 from pathlib import Path
 from typing import Any
 
@@ -18,7 +19,7 @@ try:
     from src.jurisdiction_warnings import detect_jurisdiction_warnings, infer_document_type
     from src.statutes import enrich_jurisdiction_warnings
     from src.llm import OllamaClient
-    from src.retrieve import ClauseRetriever
+    from src.retrieve import ClauseRetriever, RetrievalResult
     from src.segment import segment_document
     from src.session import SessionRecord, store
 except ImportError:  # pragma: no cover
@@ -29,7 +30,7 @@ except ImportError:  # pragma: no cover
     from jurisdiction_warnings import detect_jurisdiction_warnings, infer_document_type
     from statutes import enrich_jurisdiction_warnings
     from llm import OllamaClient
-    from retrieve import ClauseRetriever
+    from retrieve import ClauseRetriever, RetrievalResult
     from segment import segment_document
     from session import SessionRecord, store
 
@@ -47,6 +48,11 @@ app.add_middleware(
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 FRONTEND_DIST = Path(__file__).resolve().parent.parent / "frontend" / "dist"
+GENERAL_REVIEW_QUESTION = re.compile(
+    r"\b(change|revise|amend|fix|improve|update|review|concern|issue|problem|"
+    r"what should|what must|what needs|things to)\b",
+    re.IGNORECASE,
+)
 
 
 class QuestionRequest(BaseModel):
@@ -224,13 +230,83 @@ def ask_question(session_id: str, payload: QuestionRequest) -> dict[str, Any]:
     if not question:
         raise HTTPException(status_code=422, detail="Enter a question.")
     retrieved = retriever.search(question)
+    all_clauses = retriever.get_all_clauses()
     if REFUSAL_PATTERN.search(question) and not retrieved:
-        retrieved = retriever.get_all_clauses()[:3]
+        retrieved = retriever.search(question, top_k=len(all_clauses)) or []
+    if GENERAL_REVIEW_QUESTION.search(question) and all_clauses:
+        prioritized_ids = [
+            item.get("clause_id")
+            for item in record.key_clauses
+            if isinstance(item, dict)
+        ]
+        risks = record.data.get("risks", [])
+        if isinstance(risks, list):
+            prioritized_ids.extend(
+                item.get("clause_id")
+                for item in risks
+                if isinstance(item, dict) and item.get("clause_id")
+            )
+        by_id = {clause.id: clause for clause in all_clauses}
+        selected: list[RetrievalResult] = []
+        seen_ids = set()
+        for clause_id in prioritized_ids:
+            clause = by_id.get(clause_id)
+            if clause is not None and clause.id not in seen_ids:
+                selected.append(RetrievalResult(clause=clause, score=0.0))
+                seen_ids.add(clause.id)
+        for result in retrieved:
+            if result.clause.id not in seen_ids:
+                selected.append(result.clause)
+                seen_ids.add(result.clause.id)
+        for clause in all_clauses:
+            if clause.id not in seen_ids:
+                selected.append(RetrievalResult(clause=clause, score=0.0))
+                seen_ids.add(clause.id)
+            if len(selected) >= 10:
+                break
+        retrieved = selected[:10]
     try:
         source_clauses = [item.clause for item in retrieved]
-        answer = structured_answer_question(question, source_clauses, OllamaClient())
+        warnings = record.data.get("jurisdiction_warnings", [])
+        selected_ids = {clause.id for clause in source_clauses}
+        relevant_warnings = [
+            warning
+            for warning in warnings
+            if isinstance(warning, dict)
+            and (
+                not selected_ids
+                or any(
+                    isinstance(trigger, dict) and trigger.get("clause_id") in selected_ids
+                    for trigger in warning.get("triggering_clauses", [])
+                )
+            )
+        ]
+        statute_background = []
+        seen_sections = set()
+        for warning in relevant_warnings:
+            for section in warning.get("statutory_background", []):
+                if not isinstance(section, dict):
+                    continue
+                key = (section.get("act_title"), section.get("section_number"), section.get("snapshot"))
+                if key not in seen_sections:
+                    statute_background.append(section)
+                    seen_sections.add(key)
+                if len(statute_background) >= 8:
+                    break
+            if len(statute_background) >= 8:
+                break
+        answer = structured_answer_question(
+            question,
+            source_clauses,
+            OllamaClient(),
+            statutory_background=statute_background,
+        )
+        answer["statutory_background_available"] = bool(statute_background)
         answer["jurisdiction_warnings"] = enrich_jurisdiction_warnings(
-            detect_jurisdiction_warnings(source_clauses, record.data.get("doc_type", "both")),
+            relevant_warnings or detect_jurisdiction_warnings(
+                source_clauses,
+                record.data.get("doc_type", "both"),
+            ),
             record.data.get("doc_type", "both"),
         )
         return answer

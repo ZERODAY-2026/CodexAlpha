@@ -26,9 +26,16 @@ function normalizePage(value) {
 function normalizeClause(raw, index) {
   if (!raw || typeof raw !== 'object') return null;
   const category = asText(raw.category);
+  const title = category
+    ? category
+        .split(/[_\s-]+/)
+        .filter(Boolean)
+        .map((word) => `${word[0].toUpperCase()}${word.slice(1).toLowerCase()}`)
+        .join(' ')
+    : `Clause ${index + 1}`;
   return {
     id: asText(raw.clause_id) || `clause-${index + 1}`,
-    title: category || `Clause ${index + 1}`,
+    title,
     page: normalizePage(raw.page),
     source_quote: asText(raw.quote),
     explicit_meaning: asText(raw.plain_explanation),
@@ -297,6 +304,7 @@ function normalizeAnswer(payload) {
       .map(asText)
       .filter(Boolean),
     escalation: asText(payload.escalation),
+    statutory_background_available: payload.statutory_background_available === true,
   };
 }
 

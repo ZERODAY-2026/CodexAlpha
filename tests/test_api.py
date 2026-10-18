@@ -2,6 +2,7 @@ from fastapi.testclient import TestClient
 
 from src import api
 from src.analyze import DocumentAnalysis
+from src.segment import Clause
 
 
 class FakeClient:
@@ -106,3 +107,60 @@ def test_analysis_and_retrieved_question_expose_matching_background_warnings(mon
         ).json()
         assert answer["jurisdiction_warnings"][0]["rule_id"] == "rental_security_deposit"
         assert answer["jurisdiction_warnings"][0]["triggering_clauses"][0]["clause_id"] == "p1-c001"
+
+
+def test_general_review_question_sends_multiple_document_clauses_to_model(monkeypatch):
+    monkeypatch.setattr(api, "OllamaClient", FakeClient)
+    monkeypatch.setattr(
+        api,
+        "analyse_document",
+        lambda segmented, client, progress_callback: DocumentAnalysis(
+            source_name=segmented.source_name,
+            summary="A short summary.",
+        ),
+    )
+    clauses = [
+        Clause("p1-c001", 1, "Payment", "The tenant shall pay rent each month."),
+        Clause("p1-c002", 1, "Repairs", "The tenant must arrange and pay for all repairs."),
+        Clause("p1-c003", 1, "Termination", "Either party may end this agreement with 30 days' notice."),
+    ]
+    captured = {}
+
+    class EmptyRetriever:
+        def search(self, question, top_k=None):
+            return []
+
+        def get_all_clauses(self):
+            return clauses
+
+    def capture_answer(question, source_clauses, client, statutory_background=None):
+        captured["question"] = question
+        captured["clauses"] = source_clauses
+        return {
+            "answer_status": "document_silent",
+            "stated_in_document": [],
+            "possible_interpretations": [],
+            "concerns": [],
+            "uncertainty_notes": [],
+            "escalation": "",
+        }
+
+    monkeypatch.setattr(api, "structured_answer_question", capture_answer)
+    with TestClient(api.app) as client:
+        created = client.post(
+            "/api/sessions",
+            files={"file": ("agreement.txt", b"Agreement text.", "text/plain")},
+        )
+        session_id = created.json()["id"]
+        record = api.store.get(session_id)
+        record.data["retriever"] = EmptyRetriever()
+        record.status = {"stage": "done", "done": 1, "total": 1}
+
+        response = client.post(
+            f"/api/sessions/{session_id}/ask",
+            json={"question": "Which things must we change in this document?"},
+        )
+
+    assert response.status_code == 200
+    assert captured["question"] == "Which things must we change in this document?"
+    assert captured["clauses"] == clauses

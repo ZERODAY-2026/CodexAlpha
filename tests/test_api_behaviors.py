@@ -1,6 +1,6 @@
 import logging
 
-from src.analyze import answer_question, structured_answer_question
+from src.analyze import _generate_summary, answer_question, structured_answer_question
 from src.segment import Clause
 
 
@@ -51,6 +51,75 @@ def test_fabricated_quote_is_dropped_and_verified_quote_survives():
     assert item["verified"] is True
     assert item["quote"] == "The tenant shall pay rent each month."
     assert item["quote_start"] == 0
+
+
+def test_summary_returns_readable_verified_points():
+    clause = Clause(
+        id="p1-c001",
+        page=1,
+        heading="Payment",
+        text="Tenant shall pay rent on the first day of every month. Late fee is $10.",
+    )
+
+    class SummaryClient:
+        def generate_json(self, prompt: str):
+            assert "distinct important term" in prompt
+            return {
+                "claims": [
+                    {
+                        "claim": "Rent is due on the first day of each month.",
+                        "quote": "Tenant shall pay rent on the first day of every month.",
+                        "clause_id": "p1-c001",
+                    },
+                    {
+                        "claim": "Late payments incur a $10 fee.",
+                        "quote": "Late fee is $10.",
+                        "clause_id": "p1-c001",
+                    },
+                ]
+            }
+
+    summary = _generate_summary([clause], SummaryClient(), [])
+    points = summary.splitlines()
+    assert len(points) == 2
+    assert points[0].startswith("Rent is due on the first day")
+    assert points[1].startswith("Late payments incur a $10 fee")
+    assert "(p1-c001, page 1)" in points[0]
+
+
+def test_statutory_background_is_passed_as_separate_reference_context():
+    clause = Clause(
+        id="p1-c001",
+        page=1,
+        heading="Payment",
+        text="The tenant shall pay rent each month.",
+    )
+
+    class PromptClient(FakeClient):
+        prompt = ""
+
+        def generate_json(self, prompt: str):
+            self.prompt = prompt
+            return super().generate_json(prompt)
+
+    client = PromptClient()
+    structured_answer_question(
+        "What does the tenant have to do?",
+        [clause],
+        client=client,
+        statutory_background=[
+            {
+                "act_title": "Example Act",
+                "state": "central",
+                "year": 2020,
+                "section_number": "12",
+                "excerpt": "A sample statutory excerpt.",
+            }
+        ],
+    )
+    assert "Optional statutory background (may be empty; not evidence about the agreement)" in client.prompt
+    assert "Example Act" in client.prompt
+    assert "A sample statutory excerpt." in client.prompt
 
 
 def test_model_clause_id_with_page_annotation_is_canonicalized_safely():

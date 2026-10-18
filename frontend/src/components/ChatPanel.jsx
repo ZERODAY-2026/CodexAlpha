@@ -3,75 +3,45 @@ import { askDocument } from '../services/api';
 
 function Citation({ item }) {
   return (
-    <blockquote className="chat-citation">
-      <p>“{item.quote}”</p>
-      <cite>{item.clause_id} · page {item.page}</cite>
-    </blockquote>
+    <details className="chat-citation">
+      <summary>Source: {item.clause_id} · page {item.page}</summary>
+      <blockquote>“{item.quote}”</blockquote>
+    </details>
   );
 }
 
 function Answer({ answer }) {
-  const hasContent = answer.stated_in_document.length > 0
-    || answer.possible_interpretations.length > 0
-    || answer.concerns.length > 0
-    || answer.uncertainty_notes.length > 0
-    || Boolean(answer.escalation);
+  const points = [
+    ...answer.stated_in_document.map((item) => ({ text: item.claim, citation: item })),
+    ...answer.possible_interpretations.map((item) => ({ text: item.interpretation, citation: item })),
+    ...answer.concerns.map((item) => ({ text: item.reason, citation: item })),
+  ];
 
   return (
     <div className="chat-answer">
-      <span className="answer-status">{answer.answer_status.replaceAll('_', ' ')}</span>
-
-      {answer.answer_status === 'document_silent' && (
-        <p className="chat-silent">I could not find this addressed in the document.</p>
+      {points.length ? (
+        <>
+          <p>{answer.concerns.length ? 'Here are the main points I would review:' : 'Here is what I found:'}</p>
+          <ul className="chat-points">
+            {points.map((point, index) => (
+              <li key={`${point.citation.clause_id}-${index}`}>
+                <p>{point.text}</p>
+                <Citation item={point.citation} />
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : (
+        <p className="chat-silent">I couldn’t find a relevant passage for that in the document. Try asking about a specific clause or topic.</p>
       )}
-      {!hasContent && answer.answer_status !== 'document_silent' && (
-        <p className="chat-silent">No verified answer was returned for this question.</p>
-      )}
-
-      {answer.stated_in_document.length > 0 && (
-        <section className="chat-answer-section">
-          <h3>The document says</h3>
-          {answer.stated_in_document.map((item, index) => (
-            <article key={`${item.clause_id}-${index}`}>
-              <p>{item.text}</p>
-              <Citation item={item} />
-            </article>
-          ))}
-        </section>
-      )}
-
-      {answer.possible_interpretations.length > 0 && (
-        <section className="chat-answer-section">
-          <h3>Possible interpretation</h3>
-          {answer.possible_interpretations.map((item, index) => (
-            <article key={`${item.clause_id}-${index}`}>
-              <p>{item.text}</p>
-              <Citation item={item} />
-            </article>
-          ))}
-        </section>
-      )}
-
-      {answer.concerns.length > 0 && (
-        <section className="chat-answer-section">
-          <h3>Potential concerns</h3>
-          {answer.concerns.map((item, index) => (
-            <article key={`${item.clause_id}-${index}`}>
-              <p><strong>{item.severity}:</strong> {item.reason}</p>
-              <Citation item={item} />
-            </article>
-          ))}
-        </section>
-      )}
-
       {answer.uncertainty_notes.length > 0 && (
-        <section className="chat-answer-section">
-          <h3>Uncertainty</h3>
-          <ul>{answer.uncertainty_notes.map((note, index) => <li key={index}>{note}</li>)}</ul>
-        </section>
+        <p className="chat-note">{answer.uncertainty_notes[0]}</p>
       )}
-
-      {answer.escalation && <p className="chat-escalation">{answer.escalation}</p>}
+      {!answer.statutory_background_available && (
+        <p className="chat-note">
+          No matching local legal reference was available; this answer is based on the agreement text.
+        </p>
+      )}
     </div>
   );
 }
@@ -124,7 +94,7 @@ export default function ChatPanel({ sessionId }) {
       <div className="chat-heading">
         <div>
           <h2 id="chat-heading" className="card__title">Chat about this document</h2>
-          <p className="muted small">Ask questions and get answers with cited passages from the document.</p>
+          <p className="muted small">Ask a question about the agreement. Press Enter to send, or Shift+Enter for a new line.</p>
         </div>
       </div>
 
