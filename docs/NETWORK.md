@@ -21,7 +21,7 @@ After setup, the app does not invoke package managers or model downloads. It doe
 Review app network call sites with:
 
 ```bash
-rg -n 'requests\\.(get|post)|httpx\\.|urllib|fetch\\(|XMLHttpRequest|https?://' src frontend/src frontend/index.html
+rg -n 'requests\\.(get|post)|httpx\\.|urllib|fetch\\(|XMLHttpRequest|https?://' src frontend2/src frontend2/index.html
 ```
 
 The one expected runtime client is the Ollama call in `src/llm.py`; other URLs should be setup-time documentation or the Vite loopback proxy. `scripts/privacy_test.sh` runs the app and Ollama together in a Docker container with `--network none`. Docker image construction and any missing package/model downloads must happen before that isolated run.

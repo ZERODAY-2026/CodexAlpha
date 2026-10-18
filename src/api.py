@@ -42,7 +42,7 @@ app.add_middleware(
 )
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 
-FRONTEND_DIST = Path(__file__).resolve().parent.parent / "frontend" / "dist"
+FRONTEND_DIST = Path(__file__).resolve().parent.parent / "frontend2" / "dist"
 
 
 class QuestionRequest(BaseModel):
@@ -234,7 +234,7 @@ def delete_session(session_id: str) -> Response:
 def index() -> FileResponse:
     index_file = FRONTEND_DIST / "index.html"
     if not index_file.is_file():
-        raise HTTPException(status_code=503, detail="Frontend not built. Run npm ci and npm run build in frontend/.")
+        raise HTTPException(status_code=503, detail="Frontend not built. Run npm ci and npm run build in frontend2/.")
     return FileResponse(index_file)
 
 

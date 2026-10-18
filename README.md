@@ -32,7 +32,7 @@ For an already-downloaded model, skip `ollama pull`. The configured model must e
 Build the browser app once:
 
 ```bash
-cd frontend
+cd frontend2
 npm ci
 npm run build
 cd ..
@@ -56,11 +56,12 @@ OLLAMA_MODEL=gemma4:e2b python -m uvicorn src.api:app \
   --host 127.0.0.1 --port 8000 --no-access-log
 ```
 
-Open `http://127.0.0.1:8000/`. Upload a PDF or `.txt` agreement. Analysis runs in the background; progress is polled locally. Ask document-grounded questions, select a verified citation to highlight its source passage, and use **Delete session data** to remove the in-memory session.
+Open `http://127.0.0.1:8000/`. Upload a PDF or `.txt` agreement. Analysis runs in the background; progress is polled locally. Review the summary, flagged clauses, and source passages in the results dashboard.
 
-For development, keep the backend running and launch Vite from `frontend/`:
+For development, keep the backend running and launch Vite from `frontend2/`:
 
 ```bash
+cd frontend2
 npm run dev
 ```
 
@@ -85,8 +86,7 @@ Settings are in `src/config.py` and can be set with environment variables:
 ```bash
 source .venv/bin/activate
 python -m pytest -q
-cd frontend
-npm test
+cd frontend2
 npm run build
 ```
 
@@ -96,7 +96,7 @@ npm run build
 - **Model not found:** run `ollama list` and set `OLLAMA_MODEL` to the exact listed tag. Download with `ollama pull <tag>` if needed.
 - **Model response is slow:** increase `LLM_TIMEOUT_SECONDS` in the environment or use a smaller model already installed locally.
 - **Scanned PDF or no extracted text:** the current parser requires selectable text. Export a text-based PDF or use a `.txt` copy; OCR is not included.
-- **Frontend not built:** run `npm ci && npm run build` in `frontend/`.
+- **Frontend not built:** run `npm ci && npm run build` in `frontend2/`.
 - **Browser page is blank:** check the backend terminal and open the browser console. The API is same-origin and should be accessed at `127.0.0.1:8000`.
 
 ## Privacy and scope
