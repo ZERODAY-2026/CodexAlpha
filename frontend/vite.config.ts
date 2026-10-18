@@ -2,7 +2,19 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    {
+      name: 'allow-vite-dev-styles',
+      apply: 'serve',
+      transformIndexHtml(html) {
+        return html.replace(
+          "style-src 'self';",
+          "style-src 'self'; style-src-elem 'self' 'unsafe-inline';",
+        );
+      },
+    },
+  ],
   build: {
     rollupOptions: {
       plugins: [
