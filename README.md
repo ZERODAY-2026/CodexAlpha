@@ -87,7 +87,7 @@ Settings are in `src/config.py` and can be set with environment variables:
 
 ## Optional statutory background
 
-Statutory background is off unless you build the local subset. The subset builder makes a setup-time request to Hugging Face for the `legislation` configuration of [Open India Law](https://huggingface.co/datasets/vaquill/open-india-law). It streams rows and writes only selected sections under the git-ignored `data/statutes/` directory. The app never downloads the dataset. At runtime, statute retrieval is local BM25; document text and questions are not used for statute search.
+Statutory background is off unless you build the local subset. The subset builder makes a setup-time request to Hugging Face for the `legislation` configuration of [Open India Law](https://huggingface.co/datasets/vaquill/open-india-law). It streams rows and writes only selected sections under the git-ignored `data/statutes/` directory. The app never downloads the dataset. At runtime, statute retrieval is local BM25; document text and questions are not used for statute search. For Indian statutory text, use India Code as the source of truth and verify the third-party subset against it; see [docs/DATA.md](docs/DATA.md) for the recommendation and provenance guidance.
 
 To enable it:
 

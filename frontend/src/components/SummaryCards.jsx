@@ -11,10 +11,6 @@ function Stat({ icon: Icon, label, value, tone }) {
 }
 
 export default function SummaryCards({ result }) {
-  const summaryPoints = result.summary
-    .split(/\n+/)
-    .map((point) => point.trim())
-    .filter(Boolean);
   const total = result.clauses.length;
   const verified = result.clauses.filter((c) => c.evidence_verified).length;
   const concerns = result.clauses.filter((c) => c.potential_concern).length;
@@ -34,10 +30,8 @@ export default function SummaryCards({ result }) {
         </div>
 
         <h3 className="section-label">Summary</h3>
-        {summaryPoints.length > 0 ? (
-          <ul className="summary-points">
-            {summaryPoints.map((point, index) => <li key={index}>{point}</li>)}
-          </ul>
+        {result.summary ? (
+          <p className="summary-text">{result.summary}</p>
         ) : (
           <p className="muted">The backend did not return a summary.</p>
         )}

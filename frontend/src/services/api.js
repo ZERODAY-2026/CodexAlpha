@@ -40,6 +40,7 @@ function normalizeClause(raw, index) {
     source_quote: asText(raw.quote),
     explicit_meaning: asText(raw.plain_explanation),
     potential_concern: asText(raw.possible_concern),
+    suggested_revision: raw.verified === true ? asText(raw.suggested_revision) : '',
     evidence_verified: raw.verified === true,
   };
 }

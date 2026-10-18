@@ -114,6 +114,7 @@ def _process_upload(record: SessionRecord, contents: bytes, filename: str) -> No
                 "quote": item.quote,
                 "plain_explanation": item.plain_explanation,
                 "possible_concern": item.possible_concern,
+                "suggested_revision": item.suggested_revision,
                 "verified": item.verified,
                 "page": item.page,
                 "quote_start": item.quote_start,

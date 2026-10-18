@@ -1,7 +1,7 @@
 from fastapi.testclient import TestClient
 
 from src import api
-from src.analyze import DocumentAnalysis
+from src.analyze import ClauseAnalysis, DocumentAnalysis
 from src.segment import Clause
 
 
@@ -31,6 +31,16 @@ def test_upload_status_question_delete_and_security_headers(monkeypatch):
         lambda segmented, client, progress_callback: DocumentAnalysis(
             source_name=segmented.source_name,
             summary="Verified source passages are available below.",
+            key_clauses=[
+                ClauseAnalysis(
+                    clause_id="p1-c001",
+                    category="payment_penalty",
+                    quote="The tenant shall pay rent on the first day of each month.",
+                    plain_explanation="Rent is due monthly.",
+                    suggested_revision="The tenant shall pay rent on the first day of each month by bank transfer.",
+                    page=1,
+                )
+            ],
         ),
     )
     contents = (
@@ -51,6 +61,7 @@ def test_upload_status_question_delete_and_security_headers(monkeypatch):
         assert data.status_code == 200
         assert data.json()["source_clauses"]
         assert data.json()["jurisdiction_warnings"] == []
+        assert data.json()["key_clauses"][0]["suggested_revision"].startswith("The tenant shall pay rent")
 
         answer = client.post(
             f"/api/sessions/{session_id}/ask",

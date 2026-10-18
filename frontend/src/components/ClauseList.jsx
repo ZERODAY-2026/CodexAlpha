@@ -71,6 +71,53 @@ export default function ClauseList({ clauses, selectedId, onSelect }) {
           })}
         </ul>
       )}
+
+      <details className="suggested-wording">
+        <summary>
+          Suggested wording
+          <span className="suggested-wording__count">
+            {clauses.filter((clause) => clause.evidence_verified && clause.potential_concern).length}
+          </span>
+        </summary>
+        <p className="suggested-wording__disclaimer">
+          Optional model-generated drafting suggestions, not legal requirements or legal advice.
+          Compare with the original and verify before using.
+        </p>
+        {clauses.some((clause) => clause.evidence_verified && clause.potential_concern) ? (
+          <div className="suggested-wording__table-wrap">
+            <table className="suggested-wording__table">
+              <thead>
+                <tr>
+                  <th scope="col">Before — text in document</th>
+                  <th scope="col">After — suggested wording</th>
+                </tr>
+              </thead>
+              <tbody>
+                {clauses
+                  .filter((clause) => clause.evidence_verified && clause.potential_concern)
+                  .map((clause) => (
+                    <tr key={clause.id}>
+                      <td>
+                        <span className="suggested-wording__clause">
+                          {clause.title}{clause.page ? ` · page ${clause.page}` : ''}
+                        </span>
+                        {clause.source_quote}
+                      </td>
+                      <td>
+                        <p>{clause.suggested_revision || 'A verified replacement wording could not be generated for this concern.'}</p>
+                        <span className="suggested-wording__concern">
+                          Concern: {clause.potential_concern}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <p className="muted small">No possible concerns were identified in the analyzed clauses.</p>
+        )}
+      </details>
     </section>
   );
 }

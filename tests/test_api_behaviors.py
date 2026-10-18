@@ -1,7 +1,13 @@
 import logging
 
-from src.analyze import _generate_summary, answer_question, structured_answer_question
-from src.segment import Clause
+from src.analyze import (
+    _detect_categories,
+    _generate_summary,
+    analyse_document,
+    answer_question,
+    structured_answer_question,
+)
+from src.segment import Clause, SegmentedDocument
 
 
 class FakeClient:
@@ -36,6 +42,110 @@ def test_document_silent_question():
     assert "does not address this" in answer.lower()
 
 
+def test_document_analysis_batches_category_matched_clauses():
+    clauses = [
+        Clause(
+            id=f"p1-c{index:03}",
+            page=1,
+            heading="Payment",
+            text=f"Clause {index}: The tenant shall pay rent on day {index} each month.",
+        )
+        for index in range(1, 9)
+    ]
+
+    class BatchClient:
+        def __init__(self):
+            self.prompts = []
+
+        def generate_json(self, prompt: str):
+            self.prompts.append(prompt)
+            if '"claims"' in prompt:
+                return {"claims": []}
+            analyses = []
+            for clause in clauses:
+                if f"Clause id: {clause.id} |" in prompt:
+                    analyses.append({
+                        "clause_id": clause.id,
+                        "category": _detect_categories(clause.text)[0],
+                        "quote": clause.text,
+                        "plain_explanation": "The tenant pays rent monthly.",
+                        "possible_concern": "The clause does not specify the payment due date.",
+                        "suggested_revision": "The tenant shall pay rent by [agreed due date] each month.",
+                    })
+            return {"analyses": analyses}
+
+    client = BatchClient()
+    progress = []
+    result = analyse_document(
+        SegmentedDocument(source_name="agreement.txt", clauses=clauses),
+        client=client,
+        progress_callback=lambda done, total, stage: progress.append((done, total, stage)),
+    )
+
+    assert len(client.prompts) == 3  # One summary call plus two batches of four clauses.
+    assert len(result.key_clauses) == len(clauses)
+    assert len({item.clause_id for item in result.key_clauses}) == len(clauses)
+    assert result.key_clauses[0].suggested_revision == (
+        "The tenant shall pay rent by [agreed due date] each month."
+    )
+    assert progress[-1] == (3, 3, "Analysing clauses")
+
+
+def test_document_analysis_retries_missing_wording_for_a_concern():
+    clause = Clause(
+        id="p1-c001",
+        page=1,
+        heading="Payment",
+        text="The tenant shall pay rent when requested by the landlord.",
+    )
+
+    class ConcernClient:
+        def __init__(self):
+            self.prompts = []
+
+        def generate_json(self, prompt: str):
+            self.prompts.append(prompt)
+            if '"claims"' in prompt:
+                return {"claims": []}
+            if '"analyses"' in prompt:
+                return {
+                    "analyses": [{
+                        "clause_id": clause.id,
+                        "category": "obligation",
+                        "quote": clause.text,
+                        "plain_explanation": "The tenant must pay rent when asked.",
+                        "possible_concern": "The clause does not specify when payment is due.",
+                        "suggested_revision": None,
+                    }]
+                }
+            assert '"revisions"' in prompt
+            assert "The clause does not specify when payment is due." in prompt
+            return {
+                "revisions": [{
+                    "clause_id": clause.id,
+                    "quote": clause.text,
+                    "suggested_revision": (
+                        "The tenant shall pay rent within [number of days] after "
+                        "receiving the landlord's written request."
+                    ),
+                }]
+            }
+
+    client = ConcernClient()
+    result = analyse_document(
+        SegmentedDocument(source_name="agreement.txt", clauses=[clause]),
+        client=client,
+    )
+
+    assert len(client.prompts) == 3
+    assert len(result.key_clauses) == 1
+    assert result.key_clauses[0].possible_concern
+    assert result.key_clauses[0].suggested_revision == (
+        "The tenant shall pay rent within [number of days] after "
+        "receiving the landlord's written request."
+    )
+
+
 def test_fabricated_quote_is_dropped_and_verified_quote_survives():
     clause = Clause(
         id="p1-c001",
@@ -53,7 +163,7 @@ def test_fabricated_quote_is_dropped_and_verified_quote_survives():
     assert item["quote_start"] == 0
 
 
-def test_summary_returns_readable_verified_points():
+def test_summary_returns_short_conversational_paragraph_from_verified_claims():
     clause = Clause(
         id="p1-c001",
         page=1,
@@ -63,11 +173,12 @@ def test_summary_returns_readable_verified_points():
 
     class SummaryClient:
         def generate_json(self, prompt: str):
-            assert "distinct important term" in prompt
+            assert "at most 60 words and three sentences" in prompt
+            assert "a clause-by-clause list" in prompt
             return {
                 "claims": [
                     {
-                        "claim": "Rent is due on the first day of each month.",
+                        "claim": "This agreement requires the tenant to pay rent on the first day of each month.",
                         "quote": "Tenant shall pay rent on the first day of every month.",
                         "clause_id": "p1-c001",
                     },
@@ -80,11 +191,56 @@ def test_summary_returns_readable_verified_points():
             }
 
     summary = _generate_summary([clause], SummaryClient(), [])
-    points = summary.splitlines()
-    assert len(points) == 2
-    assert points[0].startswith("Rent is due on the first day")
-    assert points[1].startswith("Late payments incur a $10 fee")
-    assert "(p1-c001, page 1)" in points[0]
+    assert "\n" not in summary
+    assert summary.startswith("This agreement requires the tenant to pay rent")
+    assert "Late payments incur a $10 fee." in summary
+    assert "“" not in summary
+    assert "(p1-c001" not in summary
+
+
+def test_summary_fallback_is_a_single_concise_paragraph():
+    clause = Clause(
+        id="p1-c001",
+        page=1,
+        heading="Payment",
+        text="  The tenant shall pay rent monthly.  ",
+    )
+
+    class EmptySummaryClient:
+        def generate_json(self, _prompt: str):
+            return {"claims": []}
+
+    summary = _generate_summary([clause], EmptySummaryClient(), [])
+
+    assert summary == "The tenant shall pay rent monthly."
+    assert "\n" not in summary
+
+
+def test_summary_enforces_sentence_and_word_limits():
+    clause = Clause(
+        id="p1-c001",
+        page=1,
+        heading="Payment",
+        text="The tenant shall pay rent monthly.",
+    )
+
+    class VerboseSummaryClient:
+        def generate_json(self, _prompt: str):
+            return {
+                "claims": [
+                    {
+                        "claim": " ".join(["The agreement requires payment"] * 30) + ".",
+                        "quote": "The tenant shall pay rent monthly.",
+                        "clause_id": "p1-c001",
+                    },
+                ]
+            }
+
+    summary = _generate_summary([clause], VerboseSummaryClient(), [])
+
+    assert len(summary.split()) <= 60
+    assert len(summary.splitlines()) == 1
+    assert summary.endswith("…")
 
 
 def test_statutory_background_is_passed_as_separate_reference_context():
