@@ -8,3 +8,4 @@ frontend/dist/
 uploads/
 temp/
 .pytest_cache/
+.DS_Store

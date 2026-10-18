@@ -1,4 +1,4 @@
-# Private Legal Document Triage
+# CODEXALPHA - Private Legal Document Triage
 
 A local-first assistant for preliminary understanding of rental and employment agreements in PDF or plain-text format. Uploaded document data and questions stay in process memory, and model requests go only to Ollama on loopback.
 
