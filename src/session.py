@@ -31,7 +31,7 @@ class SessionStore:
 
     def _purge_expired(self) -> None:
         now = time.time()
-        expired = [sid for sid, record in self._sessions.items() if record.expires_at < now]
+        expired = [sid for sid, record in self._sessions.items() if record.expires_at <= now]
         for sid in expired:
             del self._sessions[sid]
 
@@ -53,7 +53,7 @@ class SessionStore:
         record = self._sessions.get(session_id)
         if record is None:
             return None
-        if record.expires_at < time.time():
+        if record.expires_at <= time.time():
             del self._sessions[session_id]
             return None
         return record

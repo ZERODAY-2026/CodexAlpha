@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Transfer of Property Act 1882",
+    "title_patterns": ["Transfer of Property Act", "Transfer of Property"],
+    "state": "central",
+    "scope": "rental"
+  },
+  {
+    "name": "Registration Act 1908",
+    "title_patterns": ["Registration Act", "Registration"],
+    "state": "central",
+    "scope": "rental"
+  },
+  {
+    "name": "Indian Stamp Act 1899",
+    "title_patterns": ["Indian Stamp Act", "Stamp Act"],
+    "state": "central",
+    "scope": "rental"
+  },
+  {
+    "name": "Karnataka rent legislation",
+    "title_patterns": ["Karnataka Rent", "Rent Control Karnataka"],
+    "state": "karnataka",
+    "scope": "rental"
+  },
+  {
+    "name": "Code on Wages 2019",
+    "title_patterns": ["Code on Wages", "Wages Code"],
+    "state": "central",
+    "scope": "employment"
+  },
+  {
+    "name": "Industrial Disputes Act 1947",
+    "title_patterns": ["Industrial Disputes Act", "Industrial Disputes"],
+    "state": "central",
+    "scope": "employment"
+  },
+  {
+    "name": "Industrial Employment (Standing Orders) Act 1946",
+    "title_patterns": ["Industrial Employment Standing Orders", "Industrial Employment"],
+    "state": "central",
+    "scope": "employment"
+  },
+  {
+    "name": "Payment of Gratuity Act 1972",
+    "title_patterns": ["Payment of Gratuity Act", "Gratuity Act"],
+    "state": "central",
+    "scope": "employment"
+  },
+  {
+    "name": "Karnataka Shops and Establishments Acts",
+    "title_patterns": ["Karnataka Shops and Establishments", "Karnataka Shops"],
+    "state": "karnataka",
+    "scope": "employment"
+  },
+  {
+    "name": "Contract Labour Act",
+    "title_patterns": ["Contract Labour Act", "Contract Labour"],
+    "state": "central",
+    "scope": "employment"
+  }
+]

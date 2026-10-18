@@ -31,6 +31,45 @@ type RiskFlag = {
   note?: string;
 };
 
+type JurisdictionWarning = {
+  rule_id: string;
+  clause_type: string;
+  warning_text: string;
+  triggering_clauses: { clause_id: string; page: number }[];
+  statutory_background?: StatutoryBackground[];
+  statutory_snapshot?: string;
+  statutory_disclaimer?: string;
+};
+
+type StatutoryBackground = {
+  act_title: string;
+  state: string;
+  year: number | null;
+  section_number: string;
+  section_title: string;
+  excerpt: string;
+  status: string;
+  snapshot: string;
+  source_url?: string;
+};
+
+const STATUTORY_BACKGROUND_DISCLAIMER = 'Possibly relevant law (background only). It may not apply to your situation, may have been amended since this snapshot, and is not a conclusion about your document. Check with a qualified local professional.';
+const STATUTE_ATTRIBUTION = 'Dataset: Open India Law by Vaquill AI, CC BY 4.0. Legislation text sourced from India Code.';
+
+function safeSourceUrl(value: string | undefined): string | null {
+  if (!value) return null;
+  try {
+    const parsed = new URL(value);
+    return parsed.protocol === 'https:' || parsed.protocol === 'http:' ? parsed.href : null;
+  } catch {
+    return null;
+  }
+}
+
+function readableLabel(value: string): string {
+  return value.split(/[_-]+/).filter(Boolean).map((part) => `${part[0].toUpperCase()}${part.slice(1)}`).join(' ') || 'Not stated in dataset';
+}
+
 type SessionData = {
   id: string;
   document_name: string;
@@ -41,6 +80,7 @@ type SessionData = {
   risks: RiskFlag[];
   suspicious_text: { clause_id: string; page: string; patterns: string }[];
   warnings: string[];
+  jurisdiction_warnings: JurisdictionWarning[];
 };
 
 type AnswerItem = {
@@ -59,6 +99,7 @@ type Answer = {
   concerns: (AnswerItem & { reason: string; severity: 'low' | 'med' | 'high' })[];
   uncertainty_notes: string[];
   escalation: string;
+  jurisdiction_warnings: JurisdictionWarning[];
 };
 
 type ActiveHighlight = {
@@ -102,6 +143,67 @@ function VerifiedPassage({
       <span className="citation-quote">“{citation.quote}”</span>
       <span className="citation-source">{citation.clause_id} · page {citation.page}</span>
     </button>
+  );
+}
+
+export function JurisdictionWarningPanel({
+  warnings,
+  onHighlight,
+}: {
+  warnings: JurisdictionWarning[];
+  onHighlight: (clauseId: string) => void;
+}) {
+  if (!warnings.length) return null;
+  return (
+    <section className="jurisdiction-warning-panel" aria-label="Background — not from your document">
+      <h2>Background — not from your document</h2>
+      {warnings.map((warning) => (
+        <article className="jurisdiction-warning" key={warning.rule_id}>
+          <h3>{warning.clause_type}</h3>
+          <p>{warning.warning_text}</p>
+          <div className="warning-triggers" aria-label="Matching source clauses">
+            {warning.triggering_clauses.map((trigger) => (
+              <button
+                className="secondary-button"
+                type="button"
+                key={trigger.clause_id}
+                aria-label={`Highlight triggering clause ${trigger.clause_id}, page ${trigger.page}`}
+                onClick={() => onHighlight(trigger.clause_id)}
+              >
+                Highlight clause {trigger.clause_id} · page {trigger.page}
+              </button>
+            ))}
+          </div>
+          {warning.statutory_background?.length ? (
+            <section className="statutory-background" aria-label="Possibly relevant statutory background">
+              <p className="statutory-framing">
+                {warning.statutory_disclaimer || STATUTORY_BACKGROUND_DISCLAIMER}
+              </p>
+              {warning.statutory_background.map((section, index) => {
+                const sourceUrl = safeSourceUrl(section.source_url);
+                return (
+                  <article className="statute-section" key={`${section.act_title}-${section.section_number}-${index}`}>
+                    <h4>{section.act_title}</h4>
+                    <p><strong>State:</strong> {section.state === 'central' ? 'Central' : readableLabel(section.state)}</p>
+                    <p><strong>Year:</strong> {section.year ?? 'Not stated in dataset'}</p>
+                    <p><strong>Section:</strong> {section.section_number || 'Not stated'}{section.section_title ? ` — ${section.section_title}` : ''}</p>
+                    <blockquote aria-label="Verbatim excerpt from source">{section.excerpt}</blockquote>
+                    <span className="statute-status" aria-label={`Dataset status: ${readableLabel(section.status)}`}>
+                      Dataset status: {readableLabel(section.status)}
+                    </span>
+                    {sourceUrl ? (
+                      <p><a href={sourceUrl} target="_blank" rel="noopener noreferrer">Open source document</a></p>
+                    ) : null}
+                  </article>
+                );
+              })}
+              <p className="statute-snapshot">Local snapshot: {warning.statutory_snapshot || warning.statutory_background[0].snapshot}</p>
+              <footer className="statute-attribution">{STATUTE_ATTRIBUTION}</footer>
+            </section>
+          ) : null}
+        </article>
+      ))}
+    </section>
   );
 }
 
@@ -239,6 +341,19 @@ function App() {
     });
   };
 
+  const highlightClause = (clauseId: string) => {
+    const clause = documentData?.source_clauses.find((item) => item.id === clauseId);
+    if (!clause) return;
+    selectCitation({
+      verified: true,
+      quote: clause.text,
+      clause_id: clause.id,
+      page: clause.page,
+      quote_start: 0,
+      quote_end: clause.text.length,
+    });
+  };
+
   return (
     <main className="app-shell">
       <header className="topbar">
@@ -317,6 +432,11 @@ function App() {
             </section>
           ) : null}
 
+          <JurisdictionWarningPanel
+            warnings={documentData.jurisdiction_warnings || []}
+            onHighlight={highlightClause}
+          />
+
           <div className="content-grid">
             <div className="analysis-column">
               <section className="panel" aria-labelledby="summary-heading">
@@ -383,6 +503,7 @@ function App() {
                   </button>
                 </form>
                 {answer ? (
+                  <>
                   <div className="answer" aria-live="polite">
                     <p className="answer-status">Answer status: {answer.answer_status.split('_').join(' ')}</p>
                     {answer.stated_in_document.length ? (
@@ -437,6 +558,11 @@ function App() {
                       </div>
                     ) : null}
                   </div>
+                  <JurisdictionWarningPanel
+                    warnings={answer.jurisdiction_warnings || []}
+                    onHighlight={highlightClause}
+                  />
+                  </>
                 ) : null}
               </section>
             </div>

@@ -3,6 +3,7 @@ src/config.py — single source of truth for all runtime settings.
 No secrets, no cloud endpoints.
 """
 import os
+from pathlib import Path
 
 os.environ.setdefault("HF_HUB_OFFLINE", "1")
 os.environ.setdefault("ANONYMIZED_TELEMETRY", "false")
@@ -25,6 +26,12 @@ LLM_TIMEOUT_SECONDS: int = int(os.getenv("LLM_TIMEOUT_SECONDS", "120"))
 # Retrieval
 # ---------------------------------------------------------------------------
 BM25_TOP_K: int = int(os.getenv("BM25_TOP_K", "5"))
+STATUTE_SUBSET_PATH: Path = Path(
+    os.getenv(
+        "STATUTE_SUBSET_PATH",
+        str(Path(__file__).resolve().parent.parent / "data" / "statutes" / "statute_subset.jsonl"),
+    )
+)
 
 # ---------------------------------------------------------------------------
 # Segmentation

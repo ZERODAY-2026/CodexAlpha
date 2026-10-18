@@ -9,12 +9,14 @@ try:
     from src.guard import scan_prompt_injection, safe_document_block
     from src.llm import OllamaClient, default_client
     from src.risk import audit_document
+    from src.jurisdiction_warnings import detect_jurisdiction_warnings, infer_document_type
     from src.segment import Clause, SegmentedDocument
     from src.verify import QuoteVerification, pass_rate, verify_clause_quote
 except ImportError:  # pragma: no cover
     from guard import scan_prompt_injection, safe_document_block
     from llm import OllamaClient, default_client
     from risk import audit_document
+    from jurisdiction_warnings import detect_jurisdiction_warnings, infer_document_type
     from segment import Clause, SegmentedDocument
     from verify import QuoteVerification, pass_rate, verify_clause_quote
 
@@ -68,6 +70,7 @@ class DocumentAnalysis:
     suspicious_text: list[dict[str, str]] = field(default_factory=list)
     risks: list[dict[str, str]] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
+    jurisdiction_warnings: list[dict] = field(default_factory=list)
 
 
 def analyse_document(
@@ -123,6 +126,7 @@ def analyse_document(
         suspicious_text=suspicious,
         risks=audit_document(clauses),
         warnings=warnings,
+        jurisdiction_warnings=detect_jurisdiction_warnings(clauses, infer_document_type(clauses)),
     )
 
 

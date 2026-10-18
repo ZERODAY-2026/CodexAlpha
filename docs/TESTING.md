@@ -9,7 +9,7 @@ npm test
 npm run build
 ```
 
-Tests cover malformed/empty files, quote matching and offsets, dropping fabricated citations, document-silent answers, enforceability-question refusal, prompt-injection detection, review flags, and metadata-only logs. Vitest checks the runtime citation guard used before any citation component can receive a quote.
+Tests cover malformed/empty files, quote matching and offsets, dropping fabricated citations, document-silent answers, enforceability-question refusal, prompt-injection detection, review flags, and metadata-only logs. Synthetic offline fixtures cover the optional statute loader and setup builder; the tests never download dataset rows. Vitest checks citation guards and the optional statutory background panel.
 
 For a runtime-only network-isolated end-to-end check, prepare the Docker image and model store, then run `bash scripts/privacy_test.sh`. The script starts the API and Ollama in the same container under `--network none`, analyzes a fictional sample, asks a question, verifies the API citation gate, and deletes the session. The test needs Docker and the selected Ollama model already present in the mounted local model store.
 

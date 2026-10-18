@@ -9,4 +9,4 @@ All checked-in sample agreements are fictional examples written for this reposit
 - `sample_docs/prompt_injection_sample.txt`
 - `sample_docs/employment_missing_terms_sample.txt`
 
-No external document corpus is bundled or used for training, retrieval, or runtime processing.
+No external document corpus is bundled or used for training. The app can optionally read a user-built local statutory subset from Open India Law for background retrieval; no dataset rows are checked in, and no dataset download occurs at runtime. See [DATA.md](DATA.md) for attribution and setup.

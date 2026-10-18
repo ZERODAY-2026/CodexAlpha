@@ -249,6 +249,87 @@ progress {
   color: #623a08;
 }
 
+.jurisdiction-warning-panel {
+  margin: 18px 0;
+  border: 2px solid #6c628d;
+  border-radius: 12px;
+  background: #f6f3fb;
+  color: #28243b;
+  padding: 20px;
+}
+
+.jurisdiction-warning-panel > h2 {
+  margin-bottom: 14px;
+  color: #393154;
+}
+
+.jurisdiction-warning + .jurisdiction-warning {
+  border-top: 1px solid #d8d1e6;
+  margin-top: 14px;
+  padding-top: 14px;
+}
+
+.jurisdiction-warning p {
+  margin-bottom: 10px;
+}
+
+.warning-triggers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.statutory-background {
+  margin-top: 16px;
+  border-top: 1px solid #d8d1e6;
+  padding-top: 14px;
+}
+
+.statutory-framing {
+  font-weight: 650;
+}
+
+.statute-section {
+  margin: 12px 0;
+  border: 1px solid #d8d1e6;
+  border-radius: 8px;
+  background: #fff;
+  padding: 14px;
+}
+
+.statute-section h4 {
+  margin: 0 0 9px;
+  font-size: 1rem;
+}
+
+.statute-section p {
+  margin: 6px 0;
+}
+
+.statute-section blockquote {
+  margin: 12px 0;
+  border-left: 3px solid #6c628d;
+  background: #faf9fc;
+  padding: 10px 12px;
+  white-space: pre-wrap;
+}
+
+.statute-status {
+  display: inline-block;
+  border: 1px solid #6c628d;
+  border-radius: 999px;
+  padding: 3px 9px;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.statute-snapshot,
+.statute-attribution {
+  margin: 8px 0 0;
+  color: #423b55;
+  font-size: 0.82rem;
+}
+
 .text-button {
   border: 0;
   background: transparent;

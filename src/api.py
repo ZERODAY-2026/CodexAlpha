@@ -15,6 +15,8 @@ try:
     from src.config import APP_TITLE, MAX_UPLOAD_BYTES
     from src.guard import scan_prompt_injection
     from src.ingest import load_document
+    from src.jurisdiction_warnings import detect_jurisdiction_warnings, infer_document_type
+    from src.statutes import enrich_jurisdiction_warnings
     from src.llm import OllamaClient
     from src.retrieve import ClauseRetriever
     from src.segment import segment_document
@@ -24,6 +26,8 @@ except ImportError:  # pragma: no cover
     from config import APP_TITLE, MAX_UPLOAD_BYTES
     from guard import scan_prompt_injection
     from ingest import load_document
+    from jurisdiction_warnings import detect_jurisdiction_warnings, infer_document_type
+    from statutes import enrich_jurisdiction_warnings
     from llm import OllamaClient
     from retrieve import ClauseRetriever
     from segment import segment_document
@@ -42,7 +46,7 @@ app.add_middleware(
 )
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 
-FRONTEND_DIST = Path(__file__).resolve().parent.parent / "frontend2" / "dist"
+FRONTEND_DIST = Path(__file__).resolve().parent.parent / "frontend" / "dist"
 
 
 class QuestionRequest(BaseModel):
@@ -85,6 +89,11 @@ def _process_upload(record: SessionRecord, contents: bytes, filename: str) -> No
             client=OllamaClient(),
             progress_callback=update_progress,
         )
+        doc_type = infer_document_type(segmented.clauses)
+        jurisdiction_warnings = enrich_jurisdiction_warnings(
+            analysis.jurisdiction_warnings or detect_jurisdiction_warnings(segmented.clauses, doc_type),
+            doc_type,
+        )
         retriever = ClauseRetriever(segmented)
         record.summary = analysis.summary
         record.key_clauses = [
@@ -115,6 +124,8 @@ def _process_upload(record: SessionRecord, contents: bytes, filename: str) -> No
             "risks": analysis.risks,
             "suspicious_text": analysis.suspicious_text,
             "warnings": analysis.warnings,
+            "jurisdiction_warnings": jurisdiction_warnings,
+            "doc_type": doc_type,
             "page_count": document.total_pages,
             "clause_count": len(segmented.clauses),
         }
@@ -193,6 +204,7 @@ def get_session(session_id: str) -> dict[str, Any]:
         "risks": record.data.get("risks", []),
         "suspicious_text": record.data.get("suspicious_text", []),
         "warnings": record.data.get("warnings", []),
+        "jurisdiction_warnings": record.data.get("jurisdiction_warnings", []),
         "page_count": record.data.get("page_count", 0),
     }
 
@@ -215,7 +227,13 @@ def ask_question(session_id: str, payload: QuestionRequest) -> dict[str, Any]:
     if REFUSAL_PATTERN.search(question) and not retrieved:
         retrieved = retriever.get_all_clauses()[:3]
     try:
-        return structured_answer_question(question, [item.clause for item in retrieved], OllamaClient())
+        source_clauses = [item.clause for item in retrieved]
+        answer = structured_answer_question(question, source_clauses, OllamaClient())
+        answer["jurisdiction_warnings"] = enrich_jurisdiction_warnings(
+            detect_jurisdiction_warnings(source_clauses, record.data.get("doc_type", "both")),
+            record.data.get("doc_type", "both"),
+        )
+        return answer
     except RuntimeError as exc:
         raise HTTPException(
             status_code=502,
@@ -234,7 +252,7 @@ def delete_session(session_id: str) -> Response:
 def index() -> FileResponse:
     index_file = FRONTEND_DIST / "index.html"
     if not index_file.is_file():
-        raise HTTPException(status_code=503, detail="Frontend not built. Run npm ci and npm run build in frontend2/.")
+        raise HTTPException(status_code=503, detail="Frontend not built. Run npm ci and npm run build in frontend/.")
     return FileResponse(index_file)
 
 

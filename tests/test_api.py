@@ -49,6 +49,7 @@ def test_upload_status_question_delete_and_security_headers(monkeypatch):
         data = client.get(f"/api/sessions/{session_id}")
         assert data.status_code == 200
         assert data.json()["source_clauses"]
+        assert data.json()["jurisdiction_warnings"] == []
 
         answer = client.post(
             f"/api/sessions/{session_id}/ask",
@@ -56,6 +57,7 @@ def test_upload_status_question_delete_and_security_headers(monkeypatch):
         )
         assert answer.status_code == 200
         assert answer.json()["stated_in_document"][0]["verified"] is True
+        assert answer.json()["jurisdiction_warnings"] == []
 
         assert client.delete(f"/api/sessions/{session_id}").status_code == 204
         assert client.get(f"/api/sessions/{session_id}").status_code == 404
@@ -71,3 +73,36 @@ def test_upload_rejects_unsupported_file_types():
             files={"file": ("agreement.docx", b"not supported", "application/octet-stream")},
         )
     assert response.status_code == 415
+
+
+def test_analysis_and_retrieved_question_expose_matching_background_warnings(monkeypatch):
+    monkeypatch.setattr(api, "OllamaClient", FakeClient)
+    monkeypatch.setattr(
+        api,
+        "analyse_document",
+        lambda segmented, client, progress_callback: DocumentAnalysis(
+            source_name=segmented.source_name,
+            summary="Verified source passages are available below.",
+        ),
+    )
+    with TestClient(api.app) as client:
+        created = client.post(
+            "/api/sessions",
+            files={
+                "file": (
+                    "rental.txt",
+                    b"1. Security Deposit. The tenant pays a security deposit that is returned after the tenancy ends.",
+                    "text/plain",
+                )
+            },
+        )
+        session_id = created.json()["id"]
+        analyzed = client.get(f"/api/sessions/{session_id}").json()
+        assert analyzed["jurisdiction_warnings"][0]["rule_id"] == "rental_security_deposit"
+
+        answer = client.post(
+            f"/api/sessions/{session_id}/ask",
+            json={"question": "How is the security deposit handled?"},
+        ).json()
+        assert answer["jurisdiction_warnings"][0]["rule_id"] == "rental_security_deposit"
+        assert answer["jurisdiction_warnings"][0]["triggering_clauses"][0]["clause_id"] == "p1-c001"

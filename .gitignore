@@ -8,5 +8,6 @@ node_modules/
 frontend/dist/
 uploads/
 temp/
+data/statutes/
 .pytest_cache/
 .DS_Store
