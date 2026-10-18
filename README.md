@@ -9,6 +9,7 @@ A local-first assistant for preliminary understanding of rental and employment a
 - Python 3.11
 - Node.js and npm for the one-time frontend build
 - Ollama installed locally with the model tag shown by `ollama list` (default: `gemma4:e2b`)
+- Tesseract OCR with English language data for scanned PDFs (`brew install tesseract` on macOS, or `sudo apt install tesseract-ocr` on Debian/Ubuntu)
 
 ## Setup
 
@@ -57,6 +58,8 @@ OLLAMA_MODEL=gemma4:e2b python -m uvicorn src.api:app \
 ```
 
 Open `http://127.0.0.1:8000/`. Upload a PDF or `.txt` agreement. Analysis runs in the background; progress is polled locally. Review the summary, key clauses, and source passages, then chat with the document using cited answers. **Delete document and start over** removes the in-memory session.
+
+PDFs with selectable text are extracted directly. Pages that contain images but little selectable text are OCRed locally with Tesseract; English is used by default. If the app cannot locate Tesseract's English data, set `TESSDATA_PREFIX` to the directory containing `eng.traineddata` before starting FastAPI.
 
 For development, keep the backend running and launch Vite from `frontend/`:
 
@@ -112,13 +115,13 @@ npm run build
 - **Cannot reach local Ollama:** ensure `ollama serve` is running and `OLLAMA_HOST` is `127.0.0.1:11434`.
 - **Model not found:** run `ollama list` and set `OLLAMA_MODEL` to the exact listed tag. Download with `ollama pull <tag>` if needed.
 - **Model response is slow:** increase `LLM_TIMEOUT_SECONDS` in the environment or use a smaller model already installed locally.
-- **Scanned PDF or no extracted text:** the current parser requires selectable text. Export a text-based PDF or use a `.txt` copy; OCR is not included.
+- **Scanned PDF OCR is unavailable:** install Tesseract and its English language data, then restart FastAPI. If the language data is installed in a non-standard location, set `TESSDATA_PREFIX` to the directory containing `eng.traineddata`. Confirm the install with `tesseract --list-langs`.
 - **Frontend not built:** run `npm ci && npm run build` in `frontend/`.
 - **Browser page is blank:** check the backend terminal and open the browser console. The API is same-origin and should be accessed at `127.0.0.1:8000`.
 
 ## Privacy and scope
 
-No cloud model, OCR, embedding, storage, analytics, or telemetry integration is used at runtime. See [docs/NETWORK.md](docs/NETWORK.md) for setup-time network calls and runtime boundaries. This prototype focuses on rental and employment agreements and should not be treated as complete document review.
+Model inference and OCR run locally. No cloud OCR, embedding, analytics, telemetry, or document-storage service is contacted at runtime. See [docs/NETWORK.md](docs/NETWORK.md) for setup-time network calls and runtime boundaries. This prototype focuses on rental and employment agreements and should not be treated as complete document review.
 
 When matching clause text is found, the app may show a fixed, generic jurisdiction background warning. These keyword-based notices are separate from document analysis and citations; they do not identify applicable law or describe a clause's status. See [docs/LIMITATIONS.md](docs/LIMITATIONS.md).
 

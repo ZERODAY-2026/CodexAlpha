@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react';
 // browser never needs CORS. Override the target with VITE_BACKEND_PROXY_TARGET.
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
-  const proxyTarget = env.VITE_BACKEND_PROXY_TARGET || 'http://localhost:8000';
+  const proxyTarget = env.VITE_BACKEND_PROXY_TARGET || 'http://127.0.0.1:8000';
 
   const proxy = {
     '/api': {
@@ -19,7 +19,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react()],
-    server: { port: 5173, proxy },
-    preview: { port: 4173, proxy },
+    server: { host: '127.0.0.1', port: 5173, proxy },
+    preview: { host: '127.0.0.1', port: 4173, proxy },
   };
 });

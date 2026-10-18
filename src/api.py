@@ -62,7 +62,12 @@ class QuestionRequest(BaseModel):
 def _set_failed(record: SessionRecord, exc: Exception) -> None:
     if isinstance(exc, ValueError):
         message = str(exc)
-        if "extractable text" in message or "empty" in message or "malformed" in message:
+        if (
+            "extractable text" in message
+            or "empty" in message
+            or "malformed" in message
+            or "tesseract" in message.lower()
+        ):
             safe_message = message
         else:
             safe_message = "The uploaded file could not be read. Choose a valid PDF or text file."

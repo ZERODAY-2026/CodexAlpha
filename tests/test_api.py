@@ -76,6 +76,19 @@ def test_upload_rejects_unsupported_file_types():
     assert response.status_code == 415
 
 
+def test_ocr_setup_error_is_returned_to_the_user():
+    record = api.store.create(document_name="scanned.pdf")
+    api._set_failed(
+        record,
+        ValueError("Scanned PDF pages require Tesseract OCR and its English language data."),
+    )
+
+    try:
+        assert "Tesseract OCR" in record.status["error"]
+    finally:
+        api.store.delete(record.session_id)
+
+
 def test_analysis_and_retrieved_question_expose_matching_background_warnings(monkeypatch):
     monkeypatch.setattr(api, "OllamaClient", FakeClient)
     monkeypatch.setattr(

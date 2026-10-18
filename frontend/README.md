@@ -8,7 +8,7 @@ concerns, supporting passages, and a document Q&A chat.
 
 ```bash
 npm install
-npm run dev          # http://localhost:5173
+npm run dev          # http://127.0.0.1:5173
 ```
 
 Production build check:
@@ -28,13 +28,13 @@ cp .env.example .env.local   # then edit; restart npm run dev
 
 | Variable | Default | Purpose |
 | --- | --- | --- |
-| `VITE_BACKEND_PROXY_TARGET` | `http://localhost:8000` | Where `npm run dev`/`preview` proxy `/api` |
+| `VITE_BACKEND_PROXY_TARGET` | `http://127.0.0.1:8000` | Where `npm run dev`/`preview` proxy `/api` |
 | `VITE_API_BASE_URL` | empty | Call the backend directly instead (needs CORS on the backend) |
 | `VITE_API_TIMEOUT_MS` | `600000` | Maximum analysis duration, including background processing |
 | `VITE_API_POLL_INTERVAL_MS` | `1000` | Delay between session status checks |
 | `VITE_MAX_FILE_MB` | `25` | Client-side upload size limit, matching the backend |
 
-Easiest setup: leave `VITE_API_BASE_URL` empty and run the backend on port 8000. The dev
+Easiest setup: leave `VITE_API_BASE_URL` empty and run the backend on `127.0.0.1:8000`. The dev
 server proxies `/api/*` there, so no CORS configuration is needed.
 
 ## Backend contract
