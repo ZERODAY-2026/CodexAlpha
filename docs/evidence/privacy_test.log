@@ -1,0 +1,607 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from privacy.Dockerfile
+#1 transferring dockerfile: 498B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/ollama/ollama:latest
+#2 DONE 22.8s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 142B done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 transferring context: 66.34kB done
+#4 DONE 0.0s
+
+#5 [1/8] FROM docker.io/ollama/ollama:latest@sha256:265409e1d931028a8f7d5a32bcbafddd7bffbc6cc629d77efe9560adf692a5e7
+#5 resolve docker.io/ollama/ollama:latest@sha256:265409e1d931028a8f7d5a32bcbafddd7bffbc6cc629d77efe9560adf692a5e7 0.0s done
+#5 sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83 0B / 2.67GB 0.2s
+#5 sha256:05aa8de08ea2d60ee74ba5692d3333ba49d741b07b438dfe37764886ede4e06b 0B / 101.56MB 0.2s
+#5 sha256:584b1f179df83d96e2ef1aa2a2dc2c25eba8ed7a3b40807a4ec5a23c501ff7f0 0B / 10.27MB 0.3s
+#5 sha256:90812e242c93750dbd37ce847c7d3db62c2c53035367d1d89c61184f168f5d37 0B / 28.94MB 0.2s
+#5 sha256:584b1f179df83d96e2ef1aa2a2dc2c25eba8ed7a3b40807a4ec5a23c501ff7f0 1.05MB / 10.27MB 1.1s
+#5 sha256:584b1f179df83d96e2ef1aa2a2dc2c25eba8ed7a3b40807a4ec5a23c501ff7f0 2.10MB / 10.27MB 1.5s
+#5 sha256:90812e242c93750dbd37ce847c7d3db62c2c53035367d1d89c61184f168f5d37 2.10MB / 28.94MB 1.8s
+#5 sha256:584b1f179df83d96e2ef1aa2a2dc2c25eba8ed7a3b40807a4ec5a23c501ff7f0 3.15MB / 10.27MB 2.0s
+#5 sha256:05aa8de08ea2d60ee74ba5692d3333ba49d741b07b438dfe37764886ede4e06b 6.29MB / 101.56MB 2.6s
+#5 sha256:584b1f179df83d96e2ef1aa2a2dc2c25eba8ed7a3b40807a4ec5a23c501ff7f0 4.19MB / 10.27MB 2.7s
+#5 sha256:90812e242c93750dbd37ce847c7d3db62c2c53035367d1d89c61184f168f5d37 4.19MB / 28.94MB 2.6s
+#5 sha256:584b1f179df83d96e2ef1aa2a2dc2c25eba8ed7a3b40807a4ec5a23c501ff7f0 5.24MB / 10.27MB 3.0s
+#5 sha256:90812e242c93750dbd37ce847c7d3db62c2c53035367d1d89c61184f168f5d37 6.29MB / 28.94MB 2.9s
+#5 sha256:90812e242c93750dbd37ce847c7d3db62c2c53035367d1d89c61184f168f5d37 8.39MB / 28.94MB 3.3s
+#5 sha256:05aa8de08ea2d60ee74ba5692d3333ba49d741b07b438dfe37764886ede4e06b 13.63MB / 101.56MB 3.6s
+#5 sha256:584b1f179df83d96e2ef1aa2a2dc2c25eba8ed7a3b40807a4ec5a23c501ff7f0 6.29MB / 10.27MB 3.6s
+#5 sha256:584b1f179df83d96e2ef1aa2a2dc2c25eba8ed7a3b40807a4ec5a23c501ff7f0 7.34MB / 10.27MB 3.9s
+#5 sha256:90812e242c93750dbd37ce847c7d3db62c2c53035367d1d89c61184f168f5d37 10.49MB / 28.94MB 3.8s
+#5 sha256:90812e242c93750dbd37ce847c7d3db62c2c53035367d1d89c61184f168f5d37 12.58MB / 28.94MB 4.1s
+#5 sha256:05aa8de08ea2d60ee74ba5692d3333ba49d741b07b438dfe37764886ede4e06b 18.87MB / 101.56MB 4.2s
+#5 sha256:584b1f179df83d96e2ef1aa2a2dc2c25eba8ed7a3b40807a4ec5a23c501ff7f0 8.39MB / 10.27MB 4.4s
+#5 sha256:90812e242c93750dbd37ce847c7d3db62c2c53035367d1d89c61184f168f5d37 14.68MB / 28.94MB 4.4s
+#5 sha256:05aa8de08ea2d60ee74ba5692d3333ba49d741b07b438dfe37764886ede4e06b 25.17MB / 101.56MB 4.8s
+#5 sha256:90812e242c93750dbd37ce847c7d3db62c2c53035367d1d89c61184f168f5d37 16.78MB / 28.94MB 4.7s
+#5 sha256:584b1f179df83d96e2ef1aa2a2dc2c25eba8ed7a3b40807a4ec5a23c501ff7f0 9.44MB / 10.27MB 5.0s
+#5 sha256:90812e242c93750dbd37ce847c7d3db62c2c53035367d1d89c61184f168f5d37 18.87MB / 28.94MB 5.0s
+#5 sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83 29.36MB / 2.67GB 5.3s
+#5 sha256:584b1f179df83d96e2ef1aa2a2dc2c25eba8ed7a3b40807a4ec5a23c501ff7f0 10.27MB / 10.27MB 5.3s done
+#5 sha256:90812e242c93750dbd37ce847c7d3db62c2c53035367d1d89c61184f168f5d37 20.97MB / 28.94MB 5.3s
+#5 sha256:05aa8de08ea2d60ee74ba5692d3333ba49d741b07b438dfe37764886ede4e06b 31.46MB / 101.56MB 5.4s
+#5 sha256:90812e242c93750dbd37ce847c7d3db62c2c53035367d1d89c61184f168f5d37 24.12MB / 28.94MB 5.6s
+#5 sha256:05aa8de08ea2d60ee74ba5692d3333ba49d741b07b438dfe37764886ede4e06b 37.75MB / 101.56MB 6.0s
+#5 sha256:90812e242c93750dbd37ce847c7d3db62c2c53035367d1d89c61184f168f5d37 26.21MB / 28.94MB 5.9s
+#5 sha256:90812e242c93750dbd37ce847c7d3db62c2c53035367d1d89c61184f168f5d37 28.94MB / 28.94MB 6.1s done
+#5 extracting sha256:90812e242c93750dbd37ce847c7d3db62c2c53035367d1d89c61184f168f5d37
+#5 sha256:05aa8de08ea2d60ee74ba5692d3333ba49d741b07b438dfe37764886ede4e06b 44.04MB / 101.56MB 6.3s
+#5 extracting sha256:90812e242c93750dbd37ce847c7d3db62c2c53035367d1d89c61184f168f5d37 0.3s done
+#5 sha256:05aa8de08ea2d60ee74ba5692d3333ba49d741b07b438dfe37764886ede4e06b 49.28MB / 101.56MB 6.6s
+#5 sha256:05aa8de08ea2d60ee74ba5692d3333ba49d741b07b438dfe37764886ede4e06b 54.53MB / 101.56MB 7.1s
+#5 sha256:05aa8de08ea2d60ee74ba5692d3333ba49d741b07b438dfe37764886ede4e06b 59.77MB / 101.56MB 8.1s
+#5 sha256:05aa8de08ea2d60ee74ba5692d3333ba49d741b07b438dfe37764886ede4e06b 65.01MB / 101.56MB 9.0s
+#5 sha256:05aa8de08ea2d60ee74ba5692d3333ba49d741b07b438dfe37764886ede4e06b 70.25MB / 101.56MB 9.5s
+#5 sha256:05aa8de08ea2d60ee74ba5692d3333ba49d741b07b438dfe37764886ede4e06b 75.50MB / 101.56MB 10.1s
+#5 sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83 35.65MB / 2.67GB 10.4s
+#5 sha256:05aa8de08ea2d60ee74ba5692d3333ba49d741b07b438dfe37764886ede4e06b 80.74MB / 101.56MB 10.7s
+#5 sha256:05aa8de08ea2d60ee74ba5692d3333ba49d741b07b438dfe37764886ede4e06b 85.98MB / 101.56MB 11.3s
+#5 sha256:05aa8de08ea2d60ee74ba5692d3333ba49d741b07b438dfe37764886ede4e06b 91.23MB / 101.56MB 11.7s
+#5 sha256:05aa8de08ea2d60ee74ba5692d3333ba49d741b07b438dfe37764886ede4e06b 96.47MB / 101.56MB 12.5s
+#5 sha256:05aa8de08ea2d60ee74ba5692d3333ba49d741b07b438dfe37764886ede4e06b 101.56MB / 101.56MB 13.1s
+#5 sha256:05aa8de08ea2d60ee74ba5692d3333ba49d741b07b438dfe37764886ede4e06b 101.56MB / 101.56MB 13.3s done
+#5 extracting sha256:05aa8de08ea2d60ee74ba5692d3333ba49d741b07b438dfe37764886ede4e06b
+#5 extracting sha256:05aa8de08ea2d60ee74ba5692d3333ba49d741b07b438dfe37764886ede4e06b 0.8s done
+#5 extracting sha256:584b1f179df83d96e2ef1aa2a2dc2c25eba8ed7a3b40807a4ec5a23c501ff7f0 0.1s done
+#5 sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83 63.96MB / 2.67GB 15.5s
+#5 sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83 131.07MB / 2.67GB 20.6s
+#5 sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83 192.94MB / 2.67GB 25.7s
+#5 sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83 288.36MB / 2.67GB 30.8s
+#5 sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83 357.56MB / 2.67GB 35.9s
+#5 sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83 428.87MB / 2.67GB 41.0s
+#5 sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83 514.85MB / 2.67GB 46.1s
+#5 sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83 594.91MB / 2.67GB 51.2s
+#5 sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83 662.70MB / 2.67GB 56.3s
+#5 sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83 766.51MB / 2.67GB 61.4s
+#5 sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83 840.96MB / 2.67GB 66.5s
+#5 sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83 925.89MB / 2.67GB 71.6s
+#5 sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83 981.47MB / 2.67GB 76.7s
+#5 sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83 1.01GB / 2.67GB 81.8s
+#5 sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83 1.10GB / 2.67GB 86.9s
+#5 sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83 1.19GB / 2.67GB 92.0s
+#5 sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83 1.27GB / 2.67GB 97.1s
+#5 sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83 1.35GB / 2.67GB 102.2s
+#5 sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83 1.44GB / 2.67GB 107.3s
+#5 sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83 1.54GB / 2.67GB 112.4s
+#5 sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83 1.64GB / 2.67GB 117.5s
+#5 sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83 1.74GB / 2.67GB 122.6s
+#5 sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83 1.85GB / 2.67GB 127.7s
+#5 sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83 1.95GB / 2.67GB 132.8s
+#5 sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83 2.04GB / 2.67GB 137.9s
+#5 sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83 2.14GB / 2.67GB 143.0s
+#5 sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83 2.24GB / 2.67GB 148.1s
+#5 sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83 2.34GB / 2.67GB 153.2s
+#5 sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83 2.44GB / 2.67GB 158.3s
+#5 sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83 2.55GB / 2.67GB 163.4s
+#5 sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83 2.65GB / 2.67GB 168.5s
+#5 sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83 2.67GB / 2.67GB 170.3s done
+#5 extracting sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83
+#5 extracting sha256:9453d33ac0470ec597933a0776834af0e88952e1f262e42d75ab5ec2562a3b83 11.6s done
+#5 DONE 181.9s
+
+#6 [2/8] RUN apt-get update     && apt-get install -y --no-install-recommends python3 python3-pip     && rm -rf /var/lib/apt/lists/*
+#6 0.721 Get:1 http://ports.ubuntu.com/ubuntu-ports noble InRelease [256 kB]
+#6 1.988 Get:2 http://ports.ubuntu.com/ubuntu-ports noble-updates InRelease [126 kB]
+#6 2.278 Get:3 http://ports.ubuntu.com/ubuntu-ports noble-backports InRelease [126 kB]
+#6 2.569 Get:4 http://ports.ubuntu.com/ubuntu-ports noble-security InRelease [126 kB]
+#6 3.062 Get:5 http://ports.ubuntu.com/ubuntu-ports noble/multiverse arm64 Packages [274 kB]
+#6 4.304 Get:6 http://ports.ubuntu.com/ubuntu-ports noble/restricted arm64 Packages [113 kB]
+#6 4.616 Get:7 http://ports.ubuntu.com/ubuntu-ports noble/universe arm64 Packages [19.0 MB]
+#6 7.021 Get:8 http://ports.ubuntu.com/ubuntu-ports noble/main arm64 Packages [1776 kB]
+#6 9.119 Get:9 http://ports.ubuntu.com/ubuntu-ports noble-updates/universe arm64 Packages [2214 kB]
+#6 11.16 Get:10 http://ports.ubuntu.com/ubuntu-ports noble-updates/multiverse arm64 Packages [104 kB]
+#6 11.39 Get:11 http://ports.ubuntu.com/ubuntu-ports noble-updates/main arm64 Packages [1786 kB]
+#6 11.81 Get:12 http://ports.ubuntu.com/ubuntu-ports noble-updates/restricted arm64 Packages [3251 kB]
+#6 12.50 Get:13 http://ports.ubuntu.com/ubuntu-ports noble-backports/universe arm64 Packages [36.3 kB]
+#6 12.71 Get:14 http://ports.ubuntu.com/ubuntu-ports noble-backports/main arm64 Packages [49.0 kB]
+#6 13.01 Get:15 http://ports.ubuntu.com/ubuntu-ports noble-backports/multiverse arm64 Packages [669 B]
+#6 13.32 Get:16 http://ports.ubuntu.com/ubuntu-ports noble-security/restricted arm64 Packages [3129 kB]
+#6 14.85 Get:17 http://ports.ubuntu.com/ubuntu-ports noble-security/multiverse arm64 Packages [99.1 kB]
+#6 16.39 Get:18 http://ports.ubuntu.com/ubuntu-ports noble-security/universe arm64 Packages [1638 kB]
+#6 18.59 Get:19 http://ports.ubuntu.com/ubuntu-ports noble-security/main arm64 Packages [1475 kB]
+#6 19.15 Fetched 35.6 MB in 19s (1873 kB/s)
+#6 19.15 Reading package lists...
+#6 19.59 Reading package lists...
+#6 20.01 Building dependency tree...
+#6 20.11 Reading state information...
+#6 20.22 The following additional packages will be installed:
+#6 20.22   libpython3-stdlib libpython3.12-minimal libpython3.12-stdlib libreadline8t64
+#6 20.22   libsqlite3-0 media-types netbase python3-minimal python3-pkg-resources
+#6 20.22   python3-setuptools python3-wheel python3.12 python3.12-minimal
+#6 20.22   readline-common tzdata
+#6 20.22 Suggested packages:
+#6 20.22   python3-doc python3-tk python3-venv python-setuptools-doc python3.12-venv
+#6 20.22   python3.12-doc binutils binfmt-support readline-doc
+#6 20.22 Recommended packages:
+#6 20.22   build-essential python3-dev
+#6 20.26 The following NEW packages will be installed:
+#6 20.26   libpython3-stdlib libpython3.12-minimal libpython3.12-stdlib libreadline8t64
+#6 20.26   libsqlite3-0 media-types netbase python3 python3-minimal python3-pip
+#6 20.26   python3-pkg-resources python3-setuptools python3-wheel python3.12
+#6 20.26   python3.12-minimal readline-common tzdata
+#6 20.79 0 upgraded, 17 newly installed, 0 to remove and 4 not upgraded.
+#6 20.79 Need to get 8999 kB of archives.
+#6 20.79 After this operation, 39.3 MB of additional disk space will be used.
+#6 20.79 Get:1 http://ports.ubuntu.com/ubuntu-ports noble-updates/main arm64 libpython3.12-minimal arm64 3.12.3-1ubuntu0.17 [835 kB]
+#6 23.39 Get:2 http://ports.ubuntu.com/ubuntu-ports noble-updates/main arm64 python3.12-minimal arm64 3.12.3-1ubuntu0.17 [2253 kB]
+#6 25.36 Get:3 http://ports.ubuntu.com/ubuntu-ports noble-updates/main arm64 python3-minimal arm64 3.12.3-0ubuntu2.1 [27.4 kB]
+#6 25.75 Get:4 http://ports.ubuntu.com/ubuntu-ports noble/main arm64 media-types all 10.1.0 [27.5 kB]
+#6 26.02 Get:5 http://ports.ubuntu.com/ubuntu-ports noble/main arm64 netbase all 6.4 [13.1 kB]
+#6 26.32 Get:6 http://ports.ubuntu.com/ubuntu-ports noble-updates/main arm64 tzdata all 2026e-0ubuntu0.24.04.1 [282 kB]
+#6 26.74 Get:7 http://ports.ubuntu.com/ubuntu-ports noble/main arm64 readline-common all 8.2-4build1 [56.5 kB]
+#6 26.99 Get:8 http://ports.ubuntu.com/ubuntu-ports noble/main arm64 libreadline8t64 arm64 8.2-4build1 [153 kB]
+#6 27.25 Get:9 http://ports.ubuntu.com/ubuntu-ports noble-updates/main arm64 libsqlite3-0 arm64 3.45.1-1ubuntu2.8 [691 kB]
+#6 27.74 Get:10 http://ports.ubuntu.com/ubuntu-ports noble-updates/main arm64 libpython3.12-stdlib arm64 3.12.3-1ubuntu0.17 [2039 kB]
+#6 28.57 Get:11 http://ports.ubuntu.com/ubuntu-ports noble-updates/main arm64 python3.12 arm64 3.12.3-1ubuntu0.17 [651 kB]
+#6 29.14 Get:12 http://ports.ubuntu.com/ubuntu-ports noble-updates/main arm64 libpython3-stdlib arm64 3.12.3-0ubuntu2.1 [10.1 kB]
+#6 29.37 Get:13 http://ports.ubuntu.com/ubuntu-ports noble-updates/main arm64 python3 arm64 3.12.3-0ubuntu2.1 [23.0 kB]
+#6 29.62 Get:14 http://ports.ubuntu.com/ubuntu-ports noble-updates/main arm64 python3-pkg-resources all 68.1.2-2ubuntu1.2 [168 kB]
+#6 29.94 Get:15 http://ports.ubuntu.com/ubuntu-ports noble-updates/main arm64 python3-setuptools all 68.1.2-2ubuntu1.2 [397 kB]
+#6 30.53 Get:16 http://ports.ubuntu.com/ubuntu-ports noble/universe arm64 python3-wheel all 0.42.0-2 [53.1 kB]
+#6 30.76 Get:17 http://ports.ubuntu.com/ubuntu-ports noble-updates/universe arm64 python3-pip all 24.0+dfsg-1ubuntu1.3 [1320 kB]
+#6 31.86 debconf: delaying package configuration, since apt-utils is not installed
+#6 31.88 Fetched 8999 kB in 12s (782 kB/s)
+#6 31.89 Selecting previously unselected package libpython3.12-minimal:arm64.
+#6 31.89 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 5297 files and directories currently installed.)
+#6 31.89 Preparing to unpack .../libpython3.12-minimal_3.12.3-1ubuntu0.17_arm64.deb ...
+#6 31.89 Unpacking libpython3.12-minimal:arm64 (3.12.3-1ubuntu0.17) ...
+#6 31.92 Selecting previously unselected package python3.12-minimal.
+#6 31.92 Preparing to unpack .../python3.12-minimal_3.12.3-1ubuntu0.17_arm64.deb ...
+#6 31.92 Unpacking python3.12-minimal (3.12.3-1ubuntu0.17) ...
+#6 31.95 Setting up libpython3.12-minimal:arm64 (3.12.3-1ubuntu0.17) ...
+#6 31.95 Setting up python3.12-minimal (3.12.3-1ubuntu0.17) ...
+#6 32.27 Selecting previously unselected package python3-minimal.
+#6 32.27 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 5608 files and directories currently installed.)
+#6 32.27 Preparing to unpack .../0-python3-minimal_3.12.3-0ubuntu2.1_arm64.deb ...
+#6 32.27 Unpacking python3-minimal (3.12.3-0ubuntu2.1) ...
+#6 32.27 Selecting previously unselected package media-types.
+#6 32.28 Preparing to unpack .../1-media-types_10.1.0_all.deb ...
+#6 32.28 Unpacking media-types (10.1.0) ...
+#6 32.28 Selecting previously unselected package netbase.
+#6 32.28 Preparing to unpack .../2-netbase_6.4_all.deb ...
+#6 32.28 Unpacking netbase (6.4) ...
+#6 32.29 Selecting previously unselected package tzdata.
+#6 32.29 Preparing to unpack .../3-tzdata_2026e-0ubuntu0.24.04.1_all.deb ...
+#6 32.30 Unpacking tzdata (2026e-0ubuntu0.24.04.1) ...
+#6 32.32 Selecting previously unselected package readline-common.
+#6 32.32 Preparing to unpack .../4-readline-common_8.2-4build1_all.deb ...
+#6 32.32 Unpacking readline-common (8.2-4build1) ...
+#6 32.33 Selecting previously unselected package libreadline8t64:arm64.
+#6 32.33 Preparing to unpack .../5-libreadline8t64_8.2-4build1_arm64.deb ...
+#6 32.33 Adding 'diversion of /lib/aarch64-linux-gnu/libhistory.so.8 to /lib/aarch64-linux-gnu/libhistory.so.8.usr-is-merged by libreadline8t64'
+#6 32.33 Adding 'diversion of /lib/aarch64-linux-gnu/libhistory.so.8.2 to /lib/aarch64-linux-gnu/libhistory.so.8.2.usr-is-merged by libreadline8t64'
+#6 32.33 Adding 'diversion of /lib/aarch64-linux-gnu/libreadline.so.8 to /lib/aarch64-linux-gnu/libreadline.so.8.usr-is-merged by libreadline8t64'
+#6 32.33 Adding 'diversion of /lib/aarch64-linux-gnu/libreadline.so.8.2 to /lib/aarch64-linux-gnu/libreadline.so.8.2.usr-is-merged by libreadline8t64'
+#6 32.33 Unpacking libreadline8t64:arm64 (8.2-4build1) ...
+#6 32.34 Selecting previously unselected package libsqlite3-0:arm64.
+#6 32.34 Preparing to unpack .../6-libsqlite3-0_3.45.1-1ubuntu2.8_arm64.deb ...
+#6 32.34 Unpacking libsqlite3-0:arm64 (3.45.1-1ubuntu2.8) ...
+#6 32.35 Selecting previously unselected package libpython3.12-stdlib:arm64.
+#6 32.35 Preparing to unpack .../7-libpython3.12-stdlib_3.12.3-1ubuntu0.17_arm64.deb ...
+#6 32.35 Unpacking libpython3.12-stdlib:arm64 (3.12.3-1ubuntu0.17) ...
+#6 32.39 Selecting previously unselected package python3.12.
+#6 32.39 Preparing to unpack .../8-python3.12_3.12.3-1ubuntu0.17_arm64.deb ...
+#6 32.39 Unpacking python3.12 (3.12.3-1ubuntu0.17) ...
+#6 32.40 Selecting previously unselected package libpython3-stdlib:arm64.
+#6 32.40 Preparing to unpack .../9-libpython3-stdlib_3.12.3-0ubuntu2.1_arm64.deb ...
+#6 32.40 Unpacking libpython3-stdlib:arm64 (3.12.3-0ubuntu2.1) ...
+#6 32.41 Setting up python3-minimal (3.12.3-0ubuntu2.1) ...
+#6 32.46 Selecting previously unselected package python3.
+#6 32.46 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 6614 files and directories currently installed.)
+#6 32.46 Preparing to unpack .../python3_3.12.3-0ubuntu2.1_arm64.deb ...
+#6 32.46 Unpacking python3 (3.12.3-0ubuntu2.1) ...
+#6 32.47 Selecting previously unselected package python3-pkg-resources.
+#6 32.47 Preparing to unpack .../python3-pkg-resources_68.1.2-2ubuntu1.2_all.deb ...
+#6 32.47 Unpacking python3-pkg-resources (68.1.2-2ubuntu1.2) ...
+#6 32.48 Selecting previously unselected package python3-setuptools.
+#6 32.48 Preparing to unpack .../python3-setuptools_68.1.2-2ubuntu1.2_all.deb ...
+#6 32.48 Unpacking python3-setuptools (68.1.2-2ubuntu1.2) ...
+#6 32.49 Selecting previously unselected package python3-wheel.
+#6 32.49 Preparing to unpack .../python3-wheel_0.42.0-2_all.deb ...
+#6 32.49 Unpacking python3-wheel (0.42.0-2) ...
+#6 32.51 Selecting previously unselected package python3-pip.
+#6 32.51 Preparing to unpack .../python3-pip_24.0+dfsg-1ubuntu1.3_all.deb ...
+#6 32.51 Unpacking python3-pip (24.0+dfsg-1ubuntu1.3) ...
+#6 32.54 Setting up media-types (10.1.0) ...
+#6 32.54 Setting up libsqlite3-0:arm64 (3.45.1-1ubuntu2.8) ...
+#6 32.54 Setting up tzdata (2026e-0ubuntu0.24.04.1) ...
+#6 32.57 debconf: unable to initialize frontend: Dialog
+#6 32.57 debconf: (TERM is not set, so the dialog frontend is not usable.)
+#6 32.57 debconf: falling back to frontend: Readline
+#6 32.57 debconf: unable to initialize frontend: Readline
+#6 32.57 debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC entries checked: /etc/perl /usr/local/lib/aarch64-linux-gnu/perl/5.38.2 /usr/local/share/perl/5.38.2 /usr/lib/aarch64-linux-gnu/perl5/5.38 /usr/share/perl5 /usr/lib/aarch64-linux-gnu/perl-base /usr/lib/aarch64-linux-gnu/perl/5.38 /usr/share/perl/5.38 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 8.)
+#6 32.57 debconf: falling back to frontend: Teletype
+#6 32.58 Configuring tzdata
+#6 32.58 ------------------
+#6 32.58 
+#6 32.58 Please select the geographic area in which you live. Subsequent configuration
+#6 32.58 questions will narrow this down by presenting a list of cities, representing
+#6 32.58 the time zones in which they are located.
+#6 32.58 
+#6 32.58   1. Africa      4. Arctic    7. Australia  10. Pacific
+#6 32.58   2. America     5. Asia      8. Europe     11. Etc
+#6 32.58   3. Antarctica  6. Atlantic  9. Indian     12. Legacy
+#6 32.58 Geographic area: 
+#6 32.58 Use of uninitialized value $_[1] in join or string at /usr/share/perl5/Debconf/DbDriver/Stack.pm line 112.
+#6 32.58 
+#6 32.58 Current default time zone: '/UTC'
+#6 32.58 Local time is now:      Sun Oct 18 07:15:23 UTC 2026.
+#6 32.58 Universal Time is now:  Sun Oct 18 07:15:23 UTC 2026.
+#6 32.58 Run 'dpkg-reconfigure tzdata' if you wish to change it.
+#6 32.58 
+#6 32.58 Use of uninitialized value $val in substitution (s///) at /usr/share/perl5/Debconf/Format/822.pm line 84, <GEN6> line 4.
+#6 32.58 Use of uninitialized value $val in concatenation (.) or string at /usr/share/perl5/Debconf/Format/822.pm line 85, <GEN6> line 4.
+#6 32.59 Setting up netbase (6.4) ...
+#6 32.59 Setting up readline-common (8.2-4build1) ...
+#6 32.59 Setting up libreadline8t64:arm64 (8.2-4build1) ...
+#6 32.60 Setting up libpython3.12-stdlib:arm64 (3.12.3-1ubuntu0.17) ...
+#6 32.60 Setting up python3.12 (3.12.3-1ubuntu0.17) ...
+#6 32.96 Setting up libpython3-stdlib:arm64 (3.12.3-0ubuntu2.1) ...
+#6 32.96 Setting up python3 (3.12.3-0ubuntu2.1) ...
+#6 32.97 running python rtupdate hooks for python3.12...
+#6 32.97 running python post-rtupdate hooks for python3.12...
+#6 33.00 Setting up python3-wheel (0.42.0-2) ...
+#6 33.06 Setting up python3-pkg-resources (68.1.2-2ubuntu1.2) ...
+#6 33.13 Setting up python3-setuptools (68.1.2-2ubuntu1.2) ...
+#6 33.30 Setting up python3-pip (24.0+dfsg-1ubuntu1.3) ...
+#6 33.77 Processing triggers for libc-bin (2.39-0ubuntu8.9) ...
+#6 DONE 34.2s
+
+#7 [3/8] WORKDIR /app
+#7 DONE 0.0s
+
+#8 [4/8] COPY requirements.txt .
+#8 DONE 0.0s
+
+#9 [5/8] RUN pip3 install --break-system-packages --no-cache-dir -r requirements.txt
+#9 0.516 Collecting PyMuPDF==1.24.9 (from -r requirements.txt (line 1))
+#9 0.611   Downloading PyMuPDF-1.24.9-cp312-none-manylinux2014_aarch64.whl.metadata (3.4 kB)
+#9 0.633 Collecting rank-bm25==0.2.2 (from -r requirements.txt (line 2))
+#9 0.650   Downloading rank_bm25-0.2.2-py3-none-any.whl.metadata (3.2 kB)
+#9 0.692 Collecting requests==2.32.3 (from -r requirements.txt (line 3))
+#9 0.711   Downloading requests-2.32.3-py3-none-any.whl.metadata (4.6 kB)
+#9 0.775 Collecting fastapi==0.115.0 (from -r requirements.txt (line 4))
+#9 0.794   Downloading fastapi-0.115.0-py3-none-any.whl.metadata (27 kB)
+#9 1.041 Collecting uvicorn==0.31.0 (from -r requirements.txt (line 5))
+#9 1.060   Downloading uvicorn-0.31.0-py3-none-any.whl.metadata (6.6 kB)
+#9 1.102 Collecting python-multipart==0.0.20 (from -r requirements.txt (line 6))
+#9 1.121   Downloading python_multipart-0.0.20-py3-none-any.whl.metadata (1.8 kB)
+#9 1.175 Collecting pytest==8.3.3 (from -r requirements.txt (line 7))
+#9 1.193   Downloading pytest-8.3.3-py3-none-any.whl.metadata (7.5 kB)
+#9 1.239 Collecting httpx==0.27.2 (from -r requirements.txt (line 8))
+#9 1.258   Downloading httpx-0.27.2-py3-none-any.whl.metadata (7.1 kB)
+#9 1.604 Collecting PyMuPDFb==1.24.9 (from PyMuPDF==1.24.9->-r requirements.txt (line 1))
+#9 1.624   Downloading PyMuPDFb-1.24.9-py3-none-manylinux2014_aarch64.manylinux_2_17_aarch64.whl.metadata (1.4 kB)
+#9 1.799 Collecting numpy (from rank-bm25==0.2.2->-r requirements.txt (line 2))
+#9 1.819   Downloading numpy-2.5.4-cp312-cp312-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl.metadata (6.6 kB)
+#9 1.921 Collecting charset-normalizer<4,>=2 (from requests==2.32.3->-r requirements.txt (line 3))
+#9 1.939   Downloading charset_normalizer-3.5.2-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (46 kB)
+#9 1.955      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 46.4/46.4 kB 3.2 MB/s eta 0:00:00
+#9 1.982 Collecting idna<4,>=2.5 (from requests==2.32.3->-r requirements.txt (line 3))
+#9 1.999   Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+#9 2.037 Collecting urllib3<3,>=1.21.1 (from requests==2.32.3->-r requirements.txt (line 3))
+#9 2.054   Downloading urllib3-2.8.0-py3-none-any.whl.metadata (7.4 kB)
+#9 2.084 Collecting certifi>=2017.4.17 (from requests==2.32.3->-r requirements.txt (line 3))
+#9 2.103   Downloading certifi-2026.7.22-py3-none-any.whl.metadata (2.5 kB)
+#9 2.146 Collecting starlette<0.39.0,>=0.37.2 (from fastapi==0.115.0->-r requirements.txt (line 4))
+#9 2.213   Downloading starlette-0.38.6-py3-none-any.whl.metadata (6.0 kB)
+#9 2.322 Collecting pydantic!=1.8,!=1.8.1,!=2.0.0,!=2.0.1,!=2.1.0,<3.0.0,>=1.7.4 (from fastapi==0.115.0->-r requirements.txt (line 4))
+#9 2.338   Downloading pydantic-2.14.1-py3-none-any.whl.metadata (133 kB)
+#9 2.362      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 133.0/133.0 kB 5.8 MB/s eta 0:00:00
+#9 2.390 Collecting typing-extensions>=4.8.0 (from fastapi==0.115.0->-r requirements.txt (line 4))
+#9 2.409   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+#9 2.441 Collecting click>=7.0 (from uvicorn==0.31.0->-r requirements.txt (line 5))
+#9 2.458   Downloading click-8.5.0-py3-none-any.whl.metadata (2.6 kB)
+#9 2.479 Collecting h11>=0.8 (from uvicorn==0.31.0->-r requirements.txt (line 5))
+#9 2.496   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+#9 2.523 Collecting iniconfig (from pytest==8.3.3->-r requirements.txt (line 7))
+#9 2.540   Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+#9 2.573 Collecting packaging (from pytest==8.3.3->-r requirements.txt (line 7))
+#9 2.591   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+#9 2.620 Collecting pluggy<2,>=1.5 (from pytest==8.3.3->-r requirements.txt (line 7))
+#9 2.636   Downloading pluggy-1.7.0-py3-none-any.whl.metadata (5.0 kB)
+#9 2.673 Collecting anyio (from httpx==0.27.2->-r requirements.txt (line 8))
+#9 2.691   Downloading anyio-4.15.1-py3-none-any.whl.metadata (4.7 kB)
+#9 2.723 Collecting httpcore==1.* (from httpx==0.27.2->-r requirements.txt (line 8))
+#9 2.741   Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+#9 2.765 Collecting sniffio (from httpx==0.27.2->-r requirements.txt (line 8))
+#9 2.782   Downloading sniffio-1.3.1-py3-none-any.whl.metadata (3.9 kB)
+#9 2.827 Collecting annotated-types>=0.6.0 (from pydantic!=1.8,!=1.8.1,!=2.0.0,!=2.0.1,!=2.1.0,<3.0.0,>=1.7.4->fastapi==0.115.0->-r requirements.txt (line 4))
+#9 2.845   Downloading annotated_types-0.8.0-py3-none-any.whl.metadata (15 kB)
+#9 3.287 Collecting pydantic-core==2.50.1 (from pydantic!=1.8,!=1.8.1,!=2.0.0,!=2.0.1,!=2.1.0,<3.0.0,>=1.7.4->fastapi==0.115.0->-r requirements.txt (line 4))
+#9 3.309   Downloading pydantic_core-2.50.1-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (6.5 kB)
+#9 3.330 Collecting typing-inspection>=0.4.4 (from pydantic!=1.8,!=1.8.1,!=2.0.0,!=2.0.1,!=2.1.0,<3.0.0,>=1.7.4->fastapi==0.115.0->-r requirements.txt (line 4))
+#9 3.346   Downloading typing_inspection-0.4.4-py3-none-any.whl.metadata (2.6 kB)
+#9 3.386 Downloading PyMuPDF-1.24.9-cp312-none-manylinux2014_aarch64.whl (3.2 MB)
+#9 3.684    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.2/3.2 MB 11.0 MB/s eta 0:00:00
+#9 3.705 Downloading rank_bm25-0.2.2-py3-none-any.whl (8.6 kB)
+#9 3.726 Downloading requests-2.32.3-py3-none-any.whl (64 kB)
+#9 3.731    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 64.9/64.9 kB 176.1 MB/s eta 0:00:00
+#9 3.752 Downloading fastapi-0.115.0-py3-none-any.whl (94 kB)
+#9 3.760    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 94.6/94.6 kB 17.2 MB/s eta 0:00:00
+#9 3.785 Downloading uvicorn-0.31.0-py3-none-any.whl (63 kB)
+#9 3.789    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 63.7/63.7 kB 59.9 MB/s eta 0:00:00
+#9 3.810 Downloading python_multipart-0.0.20-py3-none-any.whl (24 kB)
+#9 3.835 Downloading pytest-8.3.3-py3-none-any.whl (342 kB)
+#9 3.860    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 342.3/342.3 kB 16.4 MB/s eta 0:00:00
+#9 3.881 Downloading httpx-0.27.2-py3-none-any.whl (76 kB)
+#9 3.885    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 76.4/76.4 kB 49.4 MB/s eta 0:00:00
+#9 3.905 Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+#9 3.908    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 78.8/78.8 kB 217.8 MB/s eta 0:00:00
+#9 3.933 Downloading PyMuPDFb-1.24.9-py3-none-manylinux2014_aarch64.manylinux_2_17_aarch64.whl (15.7 MB)
+#9 4.939    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 15.7/15.7 MB 13.6 MB/s eta 0:00:00
+#9 4.963 Downloading certifi-2026.7.22-py3-none-any.whl (136 kB)
+#9 4.975    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 137.0/137.0 kB 13.0 MB/s eta 0:00:00
+#9 5.001 Downloading charset_normalizer-3.5.2-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (246 kB)
+#9 5.015    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 246.7/246.7 kB 22.8 MB/s eta 0:00:00
+#9 5.034 Downloading click-8.5.0-py3-none-any.whl (125 kB)
+#9 5.043    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 125.3/125.3 kB 21.9 MB/s eta 0:00:00
+#9 5.064 Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+#9 5.089 Downloading idna-3.20-py3-none-any.whl (69 kB)
+#9 5.099    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 69.6/69.6 kB 17.2 MB/s eta 0:00:00
+#9 5.117 Downloading pluggy-1.7.0-py3-none-any.whl (27 kB)
+#9 5.142 Downloading pydantic-2.14.1-py3-none-any.whl (488 kB)
+#9 5.167    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 488.1/488.1 kB 22.3 MB/s eta 0:00:00
+#9 5.187 Downloading pydantic_core-2.50.1-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (2.0 MB)
+#9 5.282    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.0/2.0 MB 22.2 MB/s eta 0:00:00
+#9 5.302 Downloading starlette-0.38.6-py3-none-any.whl (71 kB)
+#9 5.306    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 71.5/71.5 kB 38.3 MB/s eta 0:00:00
+#9 5.326 Downloading anyio-4.15.1-py3-none-any.whl (132 kB)
+#9 5.332    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 132.1/132.1 kB 45.7 MB/s eta 0:00:00
+#9 5.351 Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+#9 5.355    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 45.6/45.6 kB 71.4 MB/s eta 0:00:00
+#9 5.376 Downloading urllib3-2.8.0-py3-none-any.whl (135 kB)
+#9 5.387    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 135.7/135.7 kB 23.5 MB/s eta 0:00:00
+#9 5.407 Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+#9 5.430 Downloading numpy-2.5.4-cp312-cp312-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl (15.7 MB)
+#9 6.164    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 15.7/15.7 MB 20.9 MB/s eta 0:00:00
+#9 6.184 Downloading packaging-26.3-py3-none-any.whl (129 kB)
+#9 6.191    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 130.0/130.0 kB 32.8 MB/s eta 0:00:00
+#9 6.212 Downloading sniffio-1.3.1-py3-none-any.whl (10 kB)
+#9 6.233 Downloading annotated_types-0.8.0-py3-none-any.whl (13 kB)
+#9 6.257 Downloading typing_inspection-0.4.4-py3-none-any.whl (14 kB)
+#9 6.351 Installing collected packages: urllib3, typing-extensions, sniffio, python-multipart, PyMuPDFb, pluggy, packaging, numpy, iniconfig, idna, h11, click, charset-normalizer, certifi, annotated-types, uvicorn, typing-inspection, requests, rank-bm25, pytest, PyMuPDF, pydantic-core, httpcore, anyio, starlette, pydantic, httpx, fastapi
+#9 8.206 Successfully installed PyMuPDF-1.24.9 PyMuPDFb-1.24.9 annotated-types-0.8.0 anyio-4.15.1 certifi-2026.7.22 charset-normalizer-3.5.2 click-8.5.0 fastapi-0.115.0 h11-0.16.0 httpcore-1.0.9 httpx-0.27.2 idna-3.20 iniconfig-2.3.1 numpy-2.5.4 packaging-26.3 pluggy-1.7.0 pydantic-2.14.1 pydantic-core-2.50.1 pytest-8.3.3 python-multipart-0.0.20 rank-bm25-0.2.2 requests-2.32.3 sniffio-1.3.1 starlette-0.38.6 typing-extensions-4.16.0 typing-inspection-0.4.4 urllib3-2.8.0 uvicorn-0.31.0
+#9 8.206 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#9 DONE 8.5s
+
+#10 [6/8] COPY src ./src
+#10 DONE 0.0s
+
+#11 [7/8] COPY sample_docs ./sample_docs
+#11 DONE 0.0s
+
+#12 [8/8] COPY scripts/privacy_test_container.sh ./scripts/privacy_test_container.sh
+#12 DONE 0.0s
+
+#13 exporting to image
+#13 exporting layers
+#13 exporting layers 2.3s done
+#13 exporting manifest sha256:6a2fd7a2e496474a7f4c5323113311986a534210877670c6603f8859a3ab6ec0
+#13 exporting manifest sha256:6a2fd7a2e496474a7f4c5323113311986a534210877670c6603f8859a3ab6ec0 done
+#13 exporting config sha256:148ca6f8dfc664587cf75caad03e5ffac1f0ce97ac6358e766d85019d8c6521d 0.0s done
+#13 exporting attestation manifest sha256:7c75c304bef73bd9a3bb26e9b6cc3a5d37340c309032b374513542180cd0edae 0.0s done
+#13 exporting manifest list sha256:7251bcb0d49510eef2fc5a61200345259c776746b859ecfe1b8438d39393a021 done
+#13 naming to docker.io/library/local-legal-triage-privacy-test:latest done
+#13 unpacking to docker.io/library/local-legal-triage-privacy-test:latest
+#13 unpacking to docker.io/library/local-legal-triage-privacy-test:latest 0.6s done
+#13 DONE 3.0s
+Error: unknown command "/bin/bash" for "ollama"
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from privacy.Dockerfile
+#1 transferring dockerfile: 512B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/ollama/ollama:latest
+#2 DONE 1.2s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 142B done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 transferring context: 937B done
+#4 DONE 0.0s
+
+#5 [1/8] FROM docker.io/ollama/ollama:latest@sha256:265409e1d931028a8f7d5a32bcbafddd7bffbc6cc629d77efe9560adf692a5e7
+#5 resolve docker.io/ollama/ollama:latest@sha256:265409e1d931028a8f7d5a32bcbafddd7bffbc6cc629d77efe9560adf692a5e7 done
+#5 DONE 0.0s
+
+#6 [2/8] RUN apt-get update     && apt-get install -y --no-install-recommends python3 python3-pip     && rm -rf /var/lib/apt/lists/*
+#6 CACHED
+
+#7 [3/8] WORKDIR /app
+#7 CACHED
+
+#8 [5/8] RUN pip3 install --break-system-packages --no-cache-dir -r requirements.txt
+#8 CACHED
+
+#9 [4/8] COPY requirements.txt .
+#9 CACHED
+
+#10 [6/8] COPY src ./src
+#10 CACHED
+
+#11 [7/8] COPY sample_docs ./sample_docs
+#11 CACHED
+
+#12 [8/8] COPY scripts/privacy_test_container.sh ./scripts/privacy_test_container.sh
+#12 CACHED
+
+#13 exporting to image
+#13 exporting layers done
+#13 exporting manifest sha256:8fe95ba4e4210d4ca86dfa0b290ad9d2cfe8861a8209132ff2309a0f5a641179 done
+#13 exporting config sha256:615b8f2f9b1ec768e506d34bfd7fa106184e466a4f82093f8152af72cd913aed done
+#13 exporting attestation manifest sha256:eaf3348acd72afcf39a12c6eeb9ab01a05960514f8b30f9896b56cde0c69bc73 done
+#13 exporting manifest list sha256:5ac22bc2a7b234f0fa51638932365e419fdc2b773c797b30593a17b5bc927611 done
+#13 naming to docker.io/library/local-legal-triage-privacy-test:latest done
+#13 unpacking to docker.io/library/local-legal-triage-privacy-test:latest done
+#13 DONE 0.0s
+Analysis failed offline: Local Ollama returned HTTP 500; verify the model tag and local Ollama service.
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from privacy.Dockerfile
+#1 transferring dockerfile: 512B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/ollama/ollama:latest
+#2 DONE 0.8s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 142B done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 transferring context: 3.60kB done
+#4 DONE 0.0s
+
+#5 [1/8] FROM docker.io/ollama/ollama:latest@sha256:265409e1d931028a8f7d5a32bcbafddd7bffbc6cc629d77efe9560adf692a5e7
+#5 resolve docker.io/ollama/ollama:latest@sha256:265409e1d931028a8f7d5a32bcbafddd7bffbc6cc629d77efe9560adf692a5e7 done
+#5 DONE 0.0s
+
+#6 [3/8] WORKDIR /app
+#6 CACHED
+
+#7 [6/8] COPY src ./src
+#7 CACHED
+
+#8 [4/8] COPY requirements.txt .
+#8 CACHED
+
+#9 [2/8] RUN apt-get update     && apt-get install -y --no-install-recommends python3 python3-pip     && rm -rf /var/lib/apt/lists/*
+#9 CACHED
+
+#10 [5/8] RUN pip3 install --break-system-packages --no-cache-dir -r requirements.txt
+#10 CACHED
+
+#11 [7/8] COPY sample_docs ./sample_docs
+#11 CACHED
+
+#12 [8/8] COPY scripts/privacy_test_container.sh ./scripts/privacy_test_container.sh
+#12 DONE 0.0s
+
+#13 exporting to image
+#13 exporting layers 0.0s done
+#13 exporting manifest sha256:f80c9de0bbb0e7e5ec137103f4860152343511492066bccb4b217222e8c8b99d done
+#13 exporting config sha256:f6ab96a140612097a7e2a563ee35a6b8b7e1c6a1b1b6ee5f5e1728016ce7adf4 done
+#13 exporting attestation manifest sha256:d498b5bd9b6a14caea98470a29084bfde54d567870b2c408295658fb0d66cc17 done
+#13 exporting manifest list sha256:265846415d433302e0dcfd0246e1775a283cc0cf8a3b6afb96dc66985a8b236a done
+#13 naming to docker.io/library/local-legal-triage-privacy-test:latest done
+#13 unpacking to docker.io/library/local-legal-triage-privacy-test:latest done
+#13 DONE 0.1s
+time=2026-10-18T07:16:19.693Z level=INFO source=routes.go:2439 msg="server config" env="map[CUDA_VISIBLE_DEVICES: GGML_VK_VISIBLE_DEVICES: GPU_DEVICE_ORDINAL: HIP_VISIBLE_DEVICES: HSA_OVERRIDE_GFX_VERSION: HTTPS_PROXY: HTTP_PROXY: LLAMA_ARG_FIT: LLAMA_ARG_FIT_TARGET: NO_PROXY: OLLAMA_CONTEXT_LENGTH:0 OLLAMA_CREATE_REMOTE:false OLLAMA_DEBUG:INFO OLLAMA_DEBUG_LOG_REQUESTS:false OLLAMA_EDITOR: OLLAMA_FLASH_ATTENTION:false OLLAMA_GO_TEMPLATE:true OLLAMA_GPU_OVERHEAD:0 OLLAMA_HOST:http://127.0.0.1:11434 OLLAMA_IGPU_ENABLE: OLLAMA_KEEP_ALIVE:5m0s OLLAMA_KV_CACHE_TYPE: OLLAMA_LLM_LIBRARY: OLLAMA_LOAD_TIMEOUT:5m0s OLLAMA_MAX_LOADED_MODELS:0 OLLAMA_MAX_QUEUE:512 OLLAMA_MAX_TRANSFER_STREAMS:4 OLLAMA_MODELS:/root/.ollama/models OLLAMA_NOHISTORY:false OLLAMA_NOPRUNE:false OLLAMA_NO_CLOUD:false OLLAMA_NUM_PARALLEL:1 OLLAMA_ORIGINS:[http://localhost https://localhost http://localhost:* https://localhost:* http://127.0.0.1 https://127.0.0.1 http://127.0.0.1:* https://127.0.0.1:* http://0.0.0.0 https://0.0.0.0 http://0.0.0.0:* https://0.0.0.0:* app://* file://* tauri://* vscode-webview://* vscode-file://*] OLLAMA_REMOTES:[ollama.com] OLLAMA_SCHED_SPREAD:false OLLAMA_VULKAN:true ROCR_VISIBLE_DEVICES: http_proxy: https_proxy: no_proxy:]"
+time=2026-10-18T07:16:19.693Z level=INFO source=routes.go:2441 msg="Ollama cloud disabled: false"
+time=2026-10-18T07:16:19.905Z level=INFO source=images.go:1000 msg="total blobs: 2075"
+time=2026-10-18T07:16:19.917Z level=INFO source=images.go:1009 msg="total unused blobs removed: 0"
+time=2026-10-18T07:16:19.919Z level=INFO source=routes.go:2501 msg="Listening on 127.0.0.1:11434 (version 0.40.6)"
+time=2026-10-18T07:16:19.919Z level=INFO source=runner.go:60 msg="discovering available GPUs..."
+time=2026-10-18T07:16:19.920Z level=WARN source=model_show_cache.go:144 msg="model show cloud cache hydration failed" error="Get \"https://ollama.com:443/api/tags?ts=1792307779\": dial tcp: lookup ollama.com on 192.168.65.7:53: dial udp 192.168.65.7:53: connect: network is unreachable"
+time=2026-10-18T07:16:19.920Z level=WARN source=model_recommendations.go:168 msg="model recommendations refresh failed" error="Get \"https://ollama.com/api/experimental/model-recommendations?ts=1792307779\": dial tcp: lookup ollama.com on 192.168.65.7:53: dial udp 192.168.65.7:53: connect: network is unreachable"
+time=2026-10-18T07:16:19.920Z level=INFO source=model_recommendations.go:177 msg="model recommendations cache sleep scheduled" wait=4m5.0002665s consecutive_failures=1
+time=2026-10-18T07:16:19.950Z level=INFO source=types.go:50 msg="inference compute" id=cpu library=cpu compute="" name=cpu description=cpu libdirs=ollama driver="" pci_id="" type="" total="7.8 GiB" available="7.7 GiB"
+time=2026-10-18T07:16:19.950Z level=INFO source=routes.go:2551 msg="vram-based default context" total_vram="0 B" default_num_ctx=4096
+[GIN] 2026/10/18 - 07:16:19 | 200 |   21.287875ms |       127.0.0.1 | GET      "/api/tags"
+INFO:     Started server process [52]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+[GIN] 2026/10/18 - 07:16:21 | 500 |   12.290625ms |       127.0.0.1 | POST     "/api/generate"
+time=2026-10-18T07:16:21.087Z level=INFO source=sched.go:642 msg="failed to create server" model=gemma4:e2b error="MLX runtime is not available: failed to load MLX dynamic library (searched: [/usr/lib/ollama /app/build/lib/ollama /app/dist/linux-arm64/lib/ollama /app/dist/linux_arm64/lib/ollama])"
+Analysis failed offline: Local Ollama returned HTTP 500; verify the model tag and local Ollama service.
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from privacy.Dockerfile
+#1 transferring dockerfile: 512B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/ollama/ollama:latest
+#2 DONE 1.5s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 142B 0.0s done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 transferring context: 3.62kB done
+#4 DONE 0.0s
+
+#5 [1/8] FROM docker.io/ollama/ollama:latest@sha256:265409e1d931028a8f7d5a32bcbafddd7bffbc6cc629d77efe9560adf692a5e7
+#5 resolve docker.io/ollama/ollama:latest@sha256:265409e1d931028a8f7d5a32bcbafddd7bffbc6cc629d77efe9560adf692a5e7 0.0s done
+#5 DONE 0.0s
+
+#6 [4/8] COPY requirements.txt .
+#6 CACHED
+
+#7 [6/8] COPY src ./src
+#7 CACHED
+
+#8 [3/8] WORKDIR /app
+#8 CACHED
+
+#9 [5/8] RUN pip3 install --break-system-packages --no-cache-dir -r requirements.txt
+#9 CACHED
+
+#10 [2/8] RUN apt-get update     && apt-get install -y --no-install-recommends python3 python3-pip     && rm -rf /var/lib/apt/lists/*
+#10 CACHED
+
+#11 [7/8] COPY sample_docs ./sample_docs
+#11 CACHED
+
+#12 [8/8] COPY scripts/privacy_test_container.sh ./scripts/privacy_test_container.sh
+#12 DONE 0.0s
+
+#13 exporting to image
+#13 exporting layers 0.0s done
+#13 exporting manifest sha256:265c8c2a650cf7ed2b0745dd05a27f799adfb4c80631a6cc04441953aa8d07d8 done
+#13 exporting config sha256:15b8419dd35bedee8b310f18d9006ddc6154f515a4a8838618916e65c3e33507 done
+#13 exporting attestation manifest sha256:7ff3f8bd6472bd5f36afaccfc2bc6393542446d6854907001627aa149bf7f375 done
+#13 exporting manifest list sha256:f1884c740bc7688a0cf2a60ea137c5d4687f6ef1af10d42af084dc3393b41a16 done
+#13 naming to docker.io/library/local-legal-triage-privacy-test:latest
+#13 naming to docker.io/library/local-legal-triage-privacy-test:latest done
+#13 unpacking to docker.io/library/local-legal-triage-privacy-test:latest done
+#13 DONE 0.1s
+time=2026-10-18T07:21:16.757Z level=INFO source=routes.go:2439 msg="server config" env="map[CUDA_VISIBLE_DEVICES: GGML_VK_VISIBLE_DEVICES: GPU_DEVICE_ORDINAL: HIP_VISIBLE_DEVICES: HSA_OVERRIDE_GFX_VERSION: HTTPS_PROXY: HTTP_PROXY: LLAMA_ARG_FIT: LLAMA_ARG_FIT_TARGET: NO_PROXY: OLLAMA_CONTEXT_LENGTH:0 OLLAMA_CREATE_REMOTE:false OLLAMA_DEBUG:INFO OLLAMA_DEBUG_LOG_REQUESTS:false OLLAMA_EDITOR: OLLAMA_FLASH_ATTENTION:false OLLAMA_GO_TEMPLATE:true OLLAMA_GPU_OVERHEAD:0 OLLAMA_HOST:http://127.0.0.1:11434 OLLAMA_IGPU_ENABLE: OLLAMA_KEEP_ALIVE:5m0s OLLAMA_KV_CACHE_TYPE: OLLAMA_LLM_LIBRARY: OLLAMA_LOAD_TIMEOUT:5m0s OLLAMA_MAX_LOADED_MODELS:0 OLLAMA_MAX_QUEUE:512 OLLAMA_MAX_TRANSFER_STREAMS:4 OLLAMA_MODELS:/root/.ollama/models OLLAMA_NOHISTORY:false OLLAMA_NOPRUNE:false OLLAMA_NO_CLOUD:true OLLAMA_NUM_PARALLEL:1 OLLAMA_ORIGINS:[http://localhost https://localhost http://localhost:* https://localhost:* http://127.0.0.1 https://127.0.0.1 http://127.0.0.1:* https://127.0.0.1:* http://0.0.0.0 https://0.0.0.0 http://0.0.0.0:* https://0.0.0.0:* app://* file://* tauri://* vscode-webview://* vscode-file://*] OLLAMA_REMOTES:[ollama.com] OLLAMA_SCHED_SPREAD:false OLLAMA_VULKAN:true ROCR_VISIBLE_DEVICES: http_proxy: https_proxy: no_proxy:]"
+time=2026-10-18T07:21:16.758Z level=INFO source=routes.go:2441 msg="Ollama cloud disabled: true"
+time=2026-10-18T07:21:17.015Z level=INFO source=images.go:1000 msg="total blobs: 2075"
+time=2026-10-18T07:21:17.028Z level=INFO source=images.go:1009 msg="total unused blobs removed: 0"
+time=2026-10-18T07:21:17.030Z level=INFO source=routes.go:2501 msg="Listening on 127.0.0.1:11434 (version 0.40.6)"
+time=2026-10-18T07:21:17.031Z level=INFO source=model_recommendations.go:177 msg="model recommendations cache sleep scheduled" wait=4h14m14.40915282s consecutive_failures=0
+time=2026-10-18T07:21:17.031Z level=INFO source=runner.go:60 msg="discovering available GPUs..."
+time=2026-10-18T07:21:17.108Z level=INFO source=types.go:50 msg="inference compute" id=cpu library=cpu compute="" name=cpu description=cpu libdirs=ollama driver="" pci_id="" type="" total="7.8 GiB" available="7.7 GiB"
+time=2026-10-18T07:21:17.108Z level=INFO source=routes.go:2551 msg="vram-based default context" total_vram="0 B" default_num_ctx=4096
+[GIN] 2026/10/18 - 07:21:17 | 200 |   24.346625ms |       127.0.0.1 | GET      "/api/tags"
+INFO:     Started server process [54]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+time=2026-10-18T07:21:18.273Z level=INFO source=sched.go:642 msg="failed to create server" model=gemma4:e2b error="MLX runtime is not available: failed to load MLX dynamic library (searched: [/usr/lib/ollama /app/build/lib/ollama /app/dist/linux-arm64/lib/ollama /app/dist/linux_arm64/lib/ollama])"
+[GIN] 2026/10/18 - 07:21:18 | 500 |   15.767625ms |       127.0.0.1 | POST     "/api/generate"
+Analysis failed offline: Local Ollama returned HTTP 500; verify the model tag and local Ollama service.
