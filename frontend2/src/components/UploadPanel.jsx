@@ -1,11 +1,10 @@
 import { useId, useRef, useState } from 'react';
 import { CircleCheck, FileSearch, FileText, RefreshCw, Upload, X } from 'lucide-react';
-import ModeSwitch from './ModeSwitch';
 import { config } from '../config';
 import { ACCEPT_ATTRIBUTE, validateFile } from '../utils/fileValidation';
 import { formatBytes } from '../utils/format';
 
-export default function UploadPanel({ file, onFileChange, onAnalyze, status, useMock, onModeChange }) {
+export default function UploadPanel({ file, onFileChange, onAnalyze, status }) {
   const inputRef = useRef(null);
   const inputId = useId();
   const hintId = useId();
@@ -48,9 +47,8 @@ export default function UploadPanel({ file, onFileChange, onAnalyze, status, use
       <div className="card__header">
         <div>
           <h2 id="upload-heading" className="card__title">Upload a document</h2>
-          <p className="muted">PDF or TXT, up to {config.maxFileMb} MB. Rental agreements work best.</p>
+          <p className="muted">PDF or TXT, up to {config.maxFileMb} MB.</p>
         </div>
-        <ModeSwitch useMock={useMock} onChange={onModeChange} disabled={isLoading} />
       </div>
 
       <input
@@ -121,12 +119,7 @@ export default function UploadPanel({ file, onFileChange, onAnalyze, status, use
         </p>
       )}
 
-      <div className="upload-panel__footer">
-        <p className="muted small">
-          {useMock
-            ? 'Demo mode shows sample results. Your file is not read or uploaded.'
-            : 'Your file is sent only to the configured analysis backend, which is meant to run on this device.'}
-        </p>
+      <div className="upload-panel__footer upload-panel__footer--simple">
         <button
           type="button"
           className="btn btn--primary btn--lg"

@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import SummaryCards from './SummaryCards';
 import ClauseList from './ClauseList';
 import EvidencePanel from './EvidencePanel';
-import { getClauseTags } from '../utils/clauseTags';
+import ChatPanel from './ChatPanel';
 
 const MOBILE_QUERY = '(max-width: 900px)';
 
@@ -14,11 +14,6 @@ export default function AnalysisDashboard({ result }) {
   useEffect(() => {
     setSelectedId(result.clauses[0]?.id ?? null);
   }, [result]);
-
-  const clauseTags = useMemo(
-    () => Object.fromEntries(result.clauses.map((c) => [c.id, getClauseTags(c)])),
-    [result],
-  );
 
   const selected = result.clauses.find((c) => c.id === selectedId) ?? null;
 
@@ -35,16 +30,16 @@ export default function AnalysisDashboard({ result }) {
 
   return (
     <div className="dashboard">
-      <SummaryCards result={result} clauseTags={clauseTags} />
+      <SummaryCards result={result} />
+      <ChatPanel sessionId={result.sessionId} />
       <div className="analysis-grid">
         <ClauseList
           clauses={result.clauses}
-          clauseTags={clauseTags}
           selectedId={selectedId}
           onSelect={handleSelect}
         />
         <div className="analysis-grid__aside">
-          <EvidencePanel clause={selected} tags={selected ? clauseTags[selected.id] : null} panelRef={evidenceRef} />
+          <EvidencePanel clause={selected} panelRef={evidenceRef} />
         </div>
       </div>
     </div>

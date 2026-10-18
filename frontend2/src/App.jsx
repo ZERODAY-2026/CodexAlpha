@@ -5,51 +5,64 @@ import LoadingState from './components/LoadingState';
 import ErrorMessage from './components/ErrorMessage';
 import EmptyState from './components/EmptyState';
 import AnalysisDashboard from './components/AnalysisDashboard';
-import AboutSection from './components/AboutSection';
 import { useAnalysis } from './hooks/useAnalysis';
-import { config } from './config';
+import { deleteSession } from './services/api';
 import './App.css';
 
 export default function App() {
   const [file, setFile] = useState(null);
-  const [useMock, setUseMock] = useState(config.useMockByDefault);
+  const [sessionError, setSessionError] = useState('');
+  const [sessionToDelete, setSessionToDelete] = useState(null);
   const { status, result, error, run, cancel, reset } = useAnalysis();
 
-  function handleFileChange(nextFile) {
-    setFile(nextFile);
-    // A new or removed file invalidates the previous analysis.
-    reset();
+  async function removeSession(sessionId) {
+    try {
+      await deleteSession(sessionId);
+      setSessionError('');
+      setSessionToDelete(null);
+      return true;
+    } catch (deleteError) {
+      setSessionToDelete(sessionId);
+      setSessionError(
+        deleteError instanceof Error ? deleteError.message : 'Could not delete the document session.',
+      );
+      return false;
+    }
   }
 
-  function handleModeChange(nextUseMock) {
-    setUseMock(nextUseMock);
+  function handleFileChange(nextFile) {
+    setSessionError('');
+    setFile(nextFile);
+    if (result?.sessionId) {
+      void removeSession(result.sessionId);
+    }
     reset();
   }
 
   function handleAnalyze() {
-    if (file) run(file, { useMock });
+    if (file) run(file);
   }
 
-  function handleSwitchToDemo() {
-    setUseMock(true);
-    if (file) run(file, { useMock: true });
+  async function handleClearDocument() {
+    setSessionError('');
+    if (result?.sessionId && !(await removeSession(result.sessionId))) return;
+    reset();
+    setFile(null);
   }
 
-  // Privacy status is only taken from a real backend response.
-  const processing = result?.source === 'api' ? result.processing : null;
+  async function retrySessionDeletion() {
+    if (sessionToDelete) await removeSession(sessionToDelete);
+  }
 
   return (
     <div className="app" id="top">
       <a className="skip-link" href="#main">Skip to content</a>
-      <Header useMock={useMock} processing={processing} />
+      <Header />
 
       <main id="main" className="container main">
         <section className="intro">
-          <h1 className="intro__title">Understand a legal document before you sign it.</h1>
-          <p className="intro__text">
-            Upload a rental agreement or similar document to get a plain-language summary, the clauses that matter, and
-            the exact passages behind every finding. Results are a preliminary reading, not legal advice.
-          </p>
+          <h1 className="intro__title">Review your document</h1>
+          <p className="intro__text">Upload a PDF or text agreement to see a summary, key clauses, and cited passages.</p>
         </section>
 
         <UploadPanel
@@ -57,26 +70,39 @@ export default function App() {
           onFileChange={handleFileChange}
           onAnalyze={handleAnalyze}
           status={status}
-          useMock={useMock}
-          onModeChange={handleModeChange}
         />
 
         <div id="analysis" className="analysis-region">
           {status === 'idle' && <EmptyState />}
-          {status === 'loading' && <LoadingState fileName={file?.name} useMock={useMock} onCancel={cancel} />}
+          {status === 'loading' && <LoadingState fileName={file?.name} onCancel={cancel} />}
           {status === 'error' && (
-            <ErrorMessage error={error} onRetry={handleAnalyze} onSwitchToDemo={useMock ? null : handleSwitchToDemo} />
+            <ErrorMessage error={error} onRetry={handleAnalyze} />
           )}
-          {status === 'success' && result && <AnalysisDashboard result={result} />}
+          {status === 'success' && result && (
+            <>
+              <AnalysisDashboard result={result} />
+              <div className="clear-document">
+                <button type="button" className="btn btn--ghost" onClick={() => void handleClearDocument()}>
+                  Delete document and start over
+                </button>
+              </div>
+            </>
+          )}
         </div>
-
-        <AboutSection />
+        {sessionError && (
+          <div className="session-error" role="alert">
+            <p>{sessionError}</p>
+            <button type="button" className="btn btn--ghost btn--sm" onClick={() => void retrySessionDeletion()}>
+              Retry deletion
+            </button>
+          </div>
+        )}
       </main>
 
       <footer className="site-footer">
         <div className="container">
           <p className="muted small">
-            Private Legal Triage provides preliminary document understanding, not definitive legal advice.
+            Preliminary document understanding only, not legal advice. Verify findings against the original document.
           </p>
         </div>
       </footer>

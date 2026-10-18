@@ -7,7 +7,7 @@ const TITLES = {
   'invalid-response': 'Unexpected response from backend',
 };
 
-export default function ErrorMessage({ error, onRetry, onSwitchToDemo }) {
+export default function ErrorMessage({ error, onRetry }) {
   if (!error) return null;
   const title = TITLES[error.kind] || 'Something went wrong';
 
@@ -21,18 +21,13 @@ export default function ErrorMessage({ error, onRetry, onSwitchToDemo }) {
         </h2>
         <p>{error.message}</p>
         {error.hint && <p className="muted small">{error.hint}</p>}
-        <div className="button-row">
-          {onRetry && (
+        {onRetry && (
+          <div className="button-row">
             <button type="button" className="btn btn--primary" onClick={onRetry}>
               Try again
             </button>
-          )}
-          {onSwitchToDemo && (error.kind === 'network' || error.status === 404) && (
-            <button type="button" className="btn btn--ghost" onClick={onSwitchToDemo}>
-              Use demo data instead
-            </button>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </section>
   );

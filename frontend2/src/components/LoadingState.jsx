@@ -4,7 +4,7 @@ import { formatDuration } from '../utils/format';
 
 const SLOW_AFTER_SECONDS = 30;
 
-export default function LoadingState({ fileName, useMock, onCancel }) {
+export default function LoadingState({ fileName, onCancel }) {
   const [elapsed, setElapsed] = useState(0);
 
   useEffect(() => {
@@ -17,16 +17,12 @@ export default function LoadingState({ fileName, useMock, onCancel }) {
     <section className="card state-card" role="status" aria-live="polite">
       <LoaderCircle className="spin" size={28} aria-hidden="true" />
       <div className="state-card__body">
-        <h2 className="state-card__title">
-          {useMock ? 'Loading demonstration data…' : 'Analysing document…'}
-        </h2>
+        <h2 className="state-card__title">Analysing document…</h2>
         <p className="muted">
-          {useMock
-            ? 'Demo mode: your file is not being read or uploaded.'
-            : `Extracting text and reviewing clauses in ${fileName}. Local models can take a minute or more.`}
+          {`Extracting text and reviewing clauses in ${fileName}. This may take a minute or more.`}
         </p>
         <p className="muted small">Elapsed: {formatDuration(elapsed)}</p>
-        {!useMock && elapsed >= SLOW_AFTER_SECONDS && (
+        {elapsed >= SLOW_AFTER_SECONDS && (
           <p className="small notice-inline">
             This is taking longer than usual. Long documents are slower on an on-device model; you can keep waiting or cancel.
           </p>

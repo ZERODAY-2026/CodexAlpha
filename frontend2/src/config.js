@@ -9,7 +9,6 @@ function toNumber(value, fallback) {
 const env = import.meta.env;
 
 export const config = {
-  useMockByDefault: String(env.VITE_USE_MOCK ?? 'false').toLowerCase() !== 'false',
   apiBaseUrl: (env.VITE_API_BASE_URL || '').replace(/\/+$/, ''),
   requestTimeoutMs: toNumber(env.VITE_API_TIMEOUT_MS, 600000),
   pollIntervalMs: toNumber(env.VITE_API_POLL_INTERVAL_MS, 1000),

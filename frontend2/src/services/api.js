@@ -3,7 +3,6 @@
 // Uses the Python backend's session endpoints for upload, polling, and results.
 
 import { apiUrl, config } from '../config';
-import { mockAnalysis } from '../data/mockAnalysis';
 
 export class AnalysisError extends Error {
   constructor(kind, message, details = {}) {
@@ -15,15 +14,8 @@ export class AnalysisError extends Error {
   }
 }
 
-const CONFIDENCE_LEVELS = ['low', 'medium', 'high'];
-
 function asText(value) {
   return typeof value === 'string' ? value.trim() : '';
-}
-
-function normalizeConfidence(value) {
-  const level = asText(value).toLowerCase();
-  return CONFIDENCE_LEVELS.includes(level) ? level : 'unrated';
 }
 
 function normalizePage(value) {
@@ -41,16 +33,13 @@ function normalizeClause(raw, index) {
     source_quote: asText(raw.quote),
     explicit_meaning: asText(raw.plain_explanation),
     potential_concern: asText(raw.possible_concern),
-    confidence: normalizeConfidence(raw.confidence),
     evidence_verified: raw.verified === true,
-    category: category || null,
-    tags: [],
   };
 }
 
 // Validates and normalizes a backend payload. Throws AnalysisError when the shape
 // is unusable so the UI never renders half-parsed data as if it were complete.
-function normalizeAnalysis(payload) {
+function normalizeAnalysis(payload, sessionId) {
   if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
     throw new AnalysisError('invalid-response', 'The backend returned an unexpected response format.');
   }
@@ -80,16 +69,10 @@ function normalizeAnalysis(payload) {
     : [];
 
   return {
-    source: 'api',
-    document_type: 'Document analysis',
+    sessionId,
     summary: asText(payload.summary),
     clauses,
     missing_information: missing,
-    disclaimer: '',
-    processing: {
-      onDeviceVerified: false,
-      model: null,
-    },
   };
 }
 
@@ -212,7 +195,7 @@ async function analyzeWithBackend(file, signal) {
       const result = await request(`/api/sessions/${encodeURIComponent(sessionId)}`, {
         headers: { Accept: 'application/json' },
       }, controller.signal);
-      return normalizeAnalysis(result);
+      return normalizeAnalysis(result, sessionId);
     } catch (error) {
       if (sessionId && (signal?.aborted || timedOut)) {
         void fetch(apiUrl(`/api/sessions/${encodeURIComponent(sessionId)}`), { method: 'DELETE' }).catch(() => {});
@@ -245,18 +228,91 @@ async function analyzeWithBackend(file, signal) {
   }
 }
 
-// Demo mode: the selected file is never read or sent anywhere. A short delay
-// imitates processing so loading states can be exercised.
-function analyzeWithMock(signal) {
-  return new Promise((resolve, reject) => {
-    const timer = setTimeout(() => resolve({ ...mockAnalysis, source: 'mock' }), 1400);
-    signal?.addEventListener('abort', () => {
-      clearTimeout(timer);
-      reject(new AnalysisError('cancelled', 'Analysis cancelled.'));
-    });
-  });
+function normalizeCitation(value) {
+  if (!value || typeof value !== 'object' || value.verified !== true) return null;
+  const page = Number(value.page);
+  const quoteStart = Number(value.quote_start);
+  const quoteEnd = Number(value.quote_end);
+  const quote = asText(value.quote);
+  const clauseId = asText(value.clause_id);
+  if (
+    !quote
+    || !clauseId
+    || !Number.isInteger(page)
+    || page < 1
+    || !Number.isInteger(quoteStart)
+    || quoteStart < 0
+    || !Number.isInteger(quoteEnd)
+    || quoteEnd <= quoteStart
+  ) return null;
+  return {
+    verified: true,
+    quote,
+    clause_id: clauseId,
+    page,
+    quote_start: quoteStart,
+    quote_end: quoteEnd,
+  };
 }
 
-export function analyzeDocument(file, { useMock, signal } = {}) {
-  return useMock ? analyzeWithMock(signal) : analyzeWithBackend(file, signal);
+function normalizeAnswer(payload) {
+  if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+    throw new AnalysisError('invalid-response', 'The backend returned an unexpected answer format.');
+  }
+  const answerStatuses = ['answered', 'partially_answered', 'document_silent'];
+  if (!answerStatuses.includes(payload.answer_status)) {
+    throw new AnalysisError('invalid-response', 'The backend answer is missing a valid answer status.');
+  }
+  if (
+    !Array.isArray(payload.stated_in_document)
+    || !Array.isArray(payload.possible_interpretations)
+    || !Array.isArray(payload.concerns)
+    || !Array.isArray(payload.uncertainty_notes)
+    || typeof payload.escalation !== 'string'
+  ) {
+    throw new AnalysisError('invalid-response', 'The backend answer is missing required fields.');
+  }
+  const normalizeItems = (items, textKey) => (Array.isArray(items) ? items : [])
+    .map((item) => {
+      const citation = normalizeCitation(item);
+      const text = asText(item?.[textKey]);
+      return citation && text ? { ...citation, text } : null;
+    })
+    .filter(Boolean);
+
+  return {
+    answer_status: payload.answer_status,
+    stated_in_document: normalizeItems(payload.stated_in_document, 'claim'),
+    possible_interpretations: normalizeItems(payload.possible_interpretations, 'interpretation'),
+    concerns: (Array.isArray(payload.concerns) ? payload.concerns : [])
+      .map((item) => {
+        const citation = normalizeCitation(item);
+        const reason = asText(item?.reason);
+        return citation && reason
+          ? { ...citation, reason, severity: asText(item.severity) || 'unrated' }
+          : null;
+      })
+      .filter(Boolean),
+    uncertainty_notes: (Array.isArray(payload.uncertainty_notes) ? payload.uncertainty_notes : [])
+      .map(asText)
+      .filter(Boolean),
+    escalation: asText(payload.escalation),
+  };
+}
+
+export function analyzeDocument(file, { signal } = {}) {
+  return analyzeWithBackend(file, signal);
+}
+
+export async function askDocument(sessionId, question, { signal } = {}) {
+  const payload = await request(`/api/sessions/${encodeURIComponent(sessionId)}/ask`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    body: JSON.stringify({ question }),
+  }, signal);
+  return normalizeAnswer(payload);
+}
+
+export async function deleteSession(sessionId) {
+  await request(`/api/sessions/${encodeURIComponent(sessionId)}`, { method: 'DELETE' });
 }

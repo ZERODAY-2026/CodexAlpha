@@ -9,7 +9,7 @@ export function useAnalysis() {
   const [error, setError] = useState(null);
   const controllerRef = useRef(null);
 
-  const run = useCallback(async (file, { useMock }) => {
+  const run = useCallback(async (file) => {
     controllerRef.current?.abort();
     const controller = new AbortController();
     controllerRef.current = controller;
@@ -19,9 +19,9 @@ export function useAnalysis() {
     setResult(null);
 
     try {
-      const analysis = await analyzeDocument(file, { useMock, signal: controller.signal });
+      const analysis = await analyzeDocument(file, { signal: controller.signal });
       if (controllerRef.current !== controller) return;
-      setResult({ ...analysis, fileName: file.name, analyzedAt: new Date() });
+      setResult({ ...analysis, fileName: file.name });
       setStatus('success');
     } catch (err) {
       if (controllerRef.current !== controller) return;

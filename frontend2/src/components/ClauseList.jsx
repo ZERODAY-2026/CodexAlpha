@@ -1,9 +1,6 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { ChevronRight } from 'lucide-react';
-import ClauseTags from './ClauseTags';
-import ConfidenceLabel from './ConfidenceLabel';
 import VerificationLabel from './VerificationLabel';
-import { TAGS } from '../utils/clauseTags';
 
 const BASE_FILTERS = [
   { id: 'all', label: 'All', test: () => true },
@@ -11,22 +8,9 @@ const BASE_FILTERS = [
   { id: 'unverified', label: 'Unverified', test: (c) => !c.evidence_verified },
 ];
 
-export default function ClauseList({ clauses, clauseTags, selectedId, onSelect }) {
+export default function ClauseList({ clauses, selectedId, onSelect }) {
   const [filterId, setFilterId] = useState('all');
-
-  const filters = useMemo(
-    () => [
-      ...BASE_FILTERS,
-      ...Object.keys(TAGS).map((key) => ({
-        id: key,
-        label: TAGS[key].label,
-        test: (c) => clauseTags[c.id]?.keys.includes(key),
-      })),
-    ],
-    [clauseTags],
-  );
-
-  const active = filters.find((f) => f.id === filterId) || filters[0];
+  const active = BASE_FILTERS.find((filter) => filter.id === filterId) || BASE_FILTERS[0];
   const visible = clauses.filter(active.test);
 
   return (
@@ -39,7 +23,7 @@ export default function ClauseList({ clauses, clauseTags, selectedId, onSelect }
       </div>
 
       <div className="filter-row" role="group" aria-label="Filter clauses">
-        {filters.map((filter) => {
+        {BASE_FILTERS.map((filter) => {
           const count = clauses.filter(filter.test).length;
           return (
             <button
@@ -79,8 +63,6 @@ export default function ClauseList({ clauses, clauseTags, selectedId, onSelect }
                   {clause.potential_concern && <span className="clause-item__concern">{clause.potential_concern}</span>}
                   <span className="clause-item__meta">
                     <VerificationLabel verified={clause.evidence_verified} />
-                    <ConfidenceLabel level={clause.confidence} />
-                    <ClauseTags tags={clauseTags[clause.id]} />
                   </span>
                   <ChevronRight size={18} aria-hidden="true" className="clause-item__chevron" />
                 </button>

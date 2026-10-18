@@ -1,9 +1,7 @@
 import { BookOpen, CircleAlert, FileSearch, Quote, TriangleAlert } from 'lucide-react';
-import ClauseTags from './ClauseTags';
-import ConfidenceLabel from './ConfidenceLabel';
 import VerificationLabel from './VerificationLabel';
 
-export default function EvidencePanel({ clause, tags, panelRef }) {
+export default function EvidencePanel({ clause, panelRef }) {
   if (!clause) {
     return (
       <section ref={panelRef} className="card evidence-panel evidence-panel--empty" aria-label="Evidence">
@@ -20,8 +18,6 @@ export default function EvidencePanel({ clause, tags, panelRef }) {
       <div className="evidence-panel__meta">
         <span className="page-ref">{clause.page ? `Page ${clause.page}` : 'Page not provided'}</span>
         <VerificationLabel verified={clause.evidence_verified} />
-        <ConfidenceLabel level={clause.confidence} />
-        <ClauseTags tags={tags} />
       </div>
 
       <h3 className="section-label">
@@ -61,10 +57,6 @@ export default function EvidencePanel({ clause, tags, panelRef }) {
         </p>
       </div>
 
-      <p className="muted small evidence-panel__footnote">
-        Model-reported confidence is a rough indicator, not a calibrated probability. Tags marked by keyword match are a
-        reading aid only.
-      </p>
     </section>
   );
 }

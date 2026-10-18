@@ -56,7 +56,7 @@ OLLAMA_MODEL=gemma4:e2b python -m uvicorn src.api:app \
   --host 127.0.0.1 --port 8000 --no-access-log
 ```
 
-Open `http://127.0.0.1:8000/`. Upload a PDF or `.txt` agreement. Analysis runs in the background; progress is polled locally. Review the summary, flagged clauses, and source passages in the results dashboard.
+Open `http://127.0.0.1:8000/`. Upload a PDF or `.txt` agreement. Analysis runs in the background; progress is polled locally. Review the summary, key clauses, and source passages, then chat with the document using cited answers. **Delete document and start over** removes the in-memory session.
 
 For development, keep the backend running and launch Vite from `frontend2/`:
 
